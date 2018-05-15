@@ -17,4 +17,6 @@
 
     <!-- Login -->
     <dimen name="login_logo_size">350dp</dimen>
+    <dimen name="login_padding">20dp</dimen>
+    <dimen name="login_box_width_size">460dp</dimen>
 </resources>

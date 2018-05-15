@@ -16,5 +16,7 @@
     <dimen name="item_price_text_size">16sp</dimen>
 
     <!-- Login -->
-    <dimen name="login_logo_size">350dp</dimen>
+    <dimen name="login_logo_size">150dp</dimen>
+    <dimen name="login_padding">15dp</dimen>
+    <dimen name="login_box_width_size">300dp</dimen>
 </resources>
