@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "760790225831",
+    "firebase_url": "https://prawnandcarb.firebaseio.com",
+    "project_id": "prawnandcarb",
+    "storage_bucket": "prawnandcarb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:760790225831:android:9905e0c87da9d67a",
+        "android_client_info": {
+          "package_name": "com.nickteck.cus_prawnandcrab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "760790225831-u7r1g3t19j2833a3f6n0gg7eb3fk9cnt.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "760790225831-4lvs2cqfafa9in2rsahvjv8t3sk57qko.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nickteck.cus_prawnandcrab",
+            "certificate_hash": "f82bf517c9a3121b5816cd06b32971f682d86356"
+          }
+        },
+        {
+          "client_id": "760790225831-5i26jclohgatar8bccuui21hqpflt2n2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXBrgcXS74Zq6epJKz-iS71aDRxpABVEk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "760790225831-u7r1g3t19j2833a3f6n0gg7eb3fk9cnt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
