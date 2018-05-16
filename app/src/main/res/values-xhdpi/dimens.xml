@@ -8,8 +8,8 @@
     <dimen name="grid_item_height">120dp</dimen>
     <dimen name="grid_text_size">14sp</dimen>
     <dimen name="nav_header_width">250dp</dimen>
-    <dimen name="menu_image_dimen">50dp</dimen>
-    <dimen name="menu_home_text_size">15sp</dimen>
+    <dimen name="menu_image_dimen">65dp</dimen>
+    <dimen name="menu_home_text_size">12sp</dimen>
     <dimen name="toolbar_text_size">15sp</dimen>
     <dimen name="item_heading_text_size">17sp</dimen>
     <dimen name="item_des_text_size">15sp</dimen>
@@ -18,5 +18,8 @@
     <!-- Login -->
     <dimen name="login_logo_size">150dp</dimen>
     <dimen name="login_padding">15dp</dimen>
-    <dimen name="login_box_width_size">300dp</dimen>
+    <dimen name="login_box_width_size">320dp</dimen>
+
+    <!-- dashboard -->
+    <dimen name="logout_logo_size">35dp</dimen>
 </resources>

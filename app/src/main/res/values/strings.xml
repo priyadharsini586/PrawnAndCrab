@@ -44,7 +44,7 @@
         <string name="today_spl_icon">Today Special</string>
         <string name="offer_icon">Offers</string>
         <string name="feedback_icon">Feedback</string>
-        <string name="about_us_icon">Feedback</string>
+        <string name="about_us_icon">About us</string>
         <string name="price">Total : 0.0</string>
         <string name="place_order">Place Order</string>
         <string name="update_item">Update Item</string>
