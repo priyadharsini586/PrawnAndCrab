@@ -63,7 +63,7 @@ public class MenuNavigationActivity extends AppCompatActivity
         txtHomeToolBar.setText("Check");
         layBadge = (FrameLayout) findViewById(R.id.layBadge);
         ldtSpinner = (LinearLayout) findViewById(R.id.ldtSpinner);
-        ldtSpinner.setVisibility(View.GONE);
+        ldtSpinner.setVisibility(View.VISIBLE);
         layBadge.setOnClickListener(this);
 
         imgLogOut = (ImageView) findViewById(R.id.imgLogOut);

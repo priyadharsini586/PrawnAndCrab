@@ -50,15 +50,16 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="spinner_style">
+    <style name="spinner_style" >
         <item name="android:paddingLeft">0dp</item>
         <item name="android:dropDownWidth">123dp</item>
         <item name="android:showDividers">none</item>
         <item name="android:dividerHeight">0dp</item>
-        <item name="android:popupBackground">@color/colorPrimary</item>
         <item name="android:dropDownHeight">70dp</item>
         <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
         <item name="android:dropDownSelector">@android:color/white</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:background">@null</item>
     </style>
 
     <style name="DialogAnimation_2">

@@ -22,12 +22,12 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:weightSum="1">
+                android:weightSum="3">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:layout_weight="0.7">
+                    android:layout_weight="1">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -40,23 +40,26 @@
                     />
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:visibility="visible"
-                    android:id="@+id/ldtSpinner">
+                    android:id="@+id/ldtSpinner"
+                    android:layout_weight="1"
+                    >
                     <Spinner
                         android:id="@+id/cat_spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        style="@style/spinner_style"/>
+                        style="@style/spinner_style"
+                        />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.3"
+                    android:layout_weight="1"
                    android:padding="10dp"
                     android:gravity="end">
 
@@ -73,7 +76,8 @@
                         android:layout_height="@dimen/logout_logo_size"
                         android:src="@drawable/logout"
                         android:id="@+id/imgLogOut"
-                        android:visibility="visible"/>
+                        android:visibility="visible"
+                            android:layout_gravity="center"/>
 
                 <include
                     layout="@layout/custom_action_item_layout"

@@ -93,7 +93,7 @@ public class ContentFragment extends Fragment implements View.OnClickListener {
 
         txtBrodgeIcon = (TextView)toolbar.findViewById(R.id.txtBrodgeIcon);
         ldtSpinner = (LinearLayout)toolbar.findViewById(R.id.ldtSpinner);
-        ldtSpinner.setVisibility(View.GONE);
+        ldtSpinner.setVisibility(View.VISIBLE);
         ItemModel itemModel = ItemModel.getInstance();
         if (itemModel.getListArrayList().size() == 0)
         {

@@ -22,4 +22,30 @@
 
     <!-- dashboard -->
     <dimen name="logout_logo_size">90dp</dimen>
+    <dimen name="spinner_text_size">17sp</dimen>
+    <dimen name="badge_size">20dp</dimen>
+    <dimen name="badge_padding">-5dp</dimen>
+    <dimen name="badge_margin">3dp</dimen>
+
+
+    <!-- order taken fragment -->
+    <dimen name="order_taken_grid_size">250dp</dimen>
+    <dimen name="item_image_Width">130dp</dimen>
+    <dimen name="item_image_height">140dp</dimen>
+    <dimen name="item_padding">10dp</dimen>
+    <dimen name="item_half_padding">5dp</dimen>
+    <dimen name="item_title_size">18sp</dimen>
+    <dimen name="item_des_size">14sp</dimen>
+    <dimen name="item_price_size">20sp</dimen>
+    <dimen name="item_grid_item_pading">20dp</dimen>
+    <dimen name="item_grid_image_padding">10dp</dimen>
+    <dimen name="grid_image_height">100dp</dimen>
+    <dimen name="grid_image_width">80dp</dimen>
+
+    <!-- order item fragment -->
+    <dimen name="order_item_padding">10dp</dimen>
+    <dimen name="order_item_image_height">130dp</dimen>
+    <dimen name="order_item_incDec_padding">20dp</dimen>
+    <dimen name="order_item_incDec_padding1">5dp</dimen>
+
 </resources>

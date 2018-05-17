@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:ellipsize="marquee"
-    android:textColor="@color/white_color"
+    android:textColor="@color/white"
     android:textStyle="bold"
-    android:textSize="20sp"
+    android:textSize="@dimen/spinner_text_size"
     android:text="@string/category"
     android:padding="10dp">
 
