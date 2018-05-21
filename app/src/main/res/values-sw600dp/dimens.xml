@@ -10,7 +10,7 @@
     <dimen name="nav_header_height">230dp</dimen>
     <dimen name="nav_header_width">400dp</dimen>
     <dimen name="menu_image_dimen">100dp</dimen>
-    <dimen name="menu_home_text_size">19sp</dimen>
+    <dimen name="menu_home_text_size">15sp</dimen>
     <dimen name="toolbar_text_size">20sp</dimen>
     <dimen name="item_heading_text_size">23sp</dimen>
     <dimen name="item_des_text_size">17sp</dimen>
@@ -49,4 +49,9 @@
     <dimen name="order_item_incDec_padding">20dp</dimen>
     <dimen name="order_item_incDec_padding1">5dp</dimen>
 
+    <!-- offers fragment -->
+    <dimen name="offer_title">17sp</dimen>
+    <dimen name="offer_des">15sp</dimen>
+    <dimen name="offer_padding">12dp</dimen>
+    <dimen name="offer_text_padding">3dp</dimen>
 </resources>

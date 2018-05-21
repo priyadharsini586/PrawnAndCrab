@@ -49,4 +49,9 @@
     <dimen name="order_item_incDec_padding">14dp</dimen>
     <dimen name="order_item_incDec_padding1">1dp</dimen>
 
+    <!-- offers fragment -->
+    <dimen name="offer_title">15sp</dimen>
+    <dimen name="offer_des">13sp</dimen>
+    <dimen name="offer_padding">15dp</dimen>
+    <dimen name="offer_text_padding">10dp</dimen>
 </resources>

@@ -24,8 +24,11 @@ import com.nickteck.cus_prawnandcrab.activity.LoginActivity;
 import com.nickteck.cus_prawnandcrab.model.AddWhislist;
 import com.nickteck.cus_prawnandcrab.service.MyApplication;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -102,5 +105,17 @@ public class AdditionalClass {
             view = new View(activity);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+
+    public static long getTimeMilliSec(String timeStamp) {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyy HH:mm:ss");
+        try {
+            Date date = format.parse(timeStamp);
+            return date.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

@@ -1,9 +1,14 @@
 package com.nickteck.cus_prawnandcrab.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,20 +21,24 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.nickteck.cus_prawnandcrab.Adapter.OrderAdapter;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.nickteck.cus_prawnandcrab.Db.Database;
 import com.nickteck.cus_prawnandcrab.R;
 import com.nickteck.cus_prawnandcrab.additional_class.AdditionalClass;
 import com.nickteck.cus_prawnandcrab.additional_class.Constants;
-import com.nickteck.cus_prawnandcrab.fragment.CatagoryFragment;
 import com.nickteck.cus_prawnandcrab.fragment.ContentFragment;
 import com.nickteck.cus_prawnandcrab.fragment.FavouriteFragment;
 import com.nickteck.cus_prawnandcrab.fragment.HistoryFragment;
 import com.nickteck.cus_prawnandcrab.fragment.MyOrdersFragment;
+import com.nickteck.cus_prawnandcrab.fragment.OffersFragment;
 import com.nickteck.cus_prawnandcrab.fragment.OrderFragment;
 import com.nickteck.cus_prawnandcrab.fragment.OrderTakenScreenFragment;
+import com.nickteck.cus_prawnandcrab.gcm.QuickstartPreferences;
+import com.nickteck.cus_prawnandcrab.gcm.RegistrationIntentService;
 
 public class MenuNavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -39,6 +48,15 @@ public class MenuNavigationActivity extends AppCompatActivity
     ImageView imgLogOut;
     Database database ;
     LinearLayout ldtSpinner;
+    String TAG = MenuNavigationActivity.class.getName();
+
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
+
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
+    private ProgressBar mRegistrationProgressBar;
+    private TextView mInformationTextView;
+    private boolean isReceiverRegistered;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +96,29 @@ public class MenuNavigationActivity extends AppCompatActivity
             }
         });
 
+
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                SharedPreferences sharedPreferences =
+                        PreferenceManager.getDefaultSharedPreferences(context);
+                boolean sentToken = sharedPreferences
+                        .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
+                if (sentToken) {
+
+                } else {
+
+            }
+            }
+        };
+
+
+        if (checkPlayServices()) {
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+        }
     }
 
     @Override
@@ -132,8 +173,9 @@ public class MenuNavigationActivity extends AppCompatActivity
             AdditionalClass.replaceFragment(orderFragment,Constants.ORDER_FRAGMENT,MenuNavigationActivity.this);
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
-
+        } else if (id == R.id.nav_offers) {
+            OffersFragment orderFragment = new OffersFragment();
+            AdditionalClass.replaceFragment(orderFragment,Constants.OFFERS_FRAGMENT,MenuNavigationActivity.this);
         } else if (id == R.id.nav_history) {
             HistoryFragment myOrdersFragment = new HistoryFragment();
             AdditionalClass.replaceFragment(myOrdersFragment,Constants.HISTORY_FRAGMENT,MenuNavigationActivity.this);
@@ -152,6 +194,42 @@ public class MenuNavigationActivity extends AppCompatActivity
                 MyOrdersFragment myOrdersFragment = new MyOrdersFragment();
                 AdditionalClass.replaceFragment(myOrdersFragment,Constants.MY_ORDERS_FRAGMENT,MenuNavigationActivity.this);
                 break;
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+        isReceiverRegistered = false;
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver();
+    }
+
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+    private void registerReceiver(){
+        if(!isReceiverRegistered) {
+            LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                    new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
+            isReceiverRegistered = true;
         }
     }
 

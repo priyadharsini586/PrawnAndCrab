@@ -25,7 +25,7 @@
             android:title="Feedback" />
 
         <item
-            android:id="@+id/nav_share"
+            android:id="@+id/nav_offers"
             android:icon="@drawable/ic_offers_menu"
             android:title="Offers" />
         <item

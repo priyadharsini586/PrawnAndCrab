@@ -22,6 +22,7 @@ public class SplashActivity extends AppCompatActivity {
 
      int SPLASH_TIME_OUT = 1000;
      Database  database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
