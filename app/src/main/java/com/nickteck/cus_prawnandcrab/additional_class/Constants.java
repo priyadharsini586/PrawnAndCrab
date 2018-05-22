@@ -38,6 +38,7 @@ public class Constants {
     public static String HISTORY_FRAGMENT = "HISTORY_FRAGMENT";
     public static String ORDER_FRAGMENT = "ORDER_FRAGMENT";
     public static String OFFERS_FRAGMENT = "OFFERS_FRAGMENT";
+    public static String MY_LOCATION_FRAGMENT = "MY_LOCATION_FRAGMENT";
 
     //SharedPreferences
     public static String PREFS_NAME = "RESTARANT_APP";

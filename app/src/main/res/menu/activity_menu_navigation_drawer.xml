@@ -39,13 +39,14 @@
             android:title="Today Special" />
 
         <item
+            android:id="@+id/nav_my_location"
+            android:icon="@drawable/ic_today_spl_menu"
+            android:title="Location" />
+
+        <item
             android:id="@+id/nav_about_us"
             android:icon="@drawable/ic_about_us_menu"
             android:title="About Us" />
     </group>
-
-    <!--<item android:title="Communicate">-->
-
-    <!--</item>-->
 
 </menu>

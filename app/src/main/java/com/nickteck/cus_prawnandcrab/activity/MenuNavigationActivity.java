@@ -33,6 +33,7 @@ import com.nickteck.cus_prawnandcrab.additional_class.Constants;
 import com.nickteck.cus_prawnandcrab.fragment.ContentFragment;
 import com.nickteck.cus_prawnandcrab.fragment.FavouriteFragment;
 import com.nickteck.cus_prawnandcrab.fragment.HistoryFragment;
+import com.nickteck.cus_prawnandcrab.fragment.MyLocationFragment;
 import com.nickteck.cus_prawnandcrab.fragment.MyOrdersFragment;
 import com.nickteck.cus_prawnandcrab.fragment.OffersFragment;
 import com.nickteck.cus_prawnandcrab.fragment.OrderFragment;
@@ -179,6 +180,10 @@ public class MenuNavigationActivity extends AppCompatActivity
         } else if (id == R.id.nav_history) {
             HistoryFragment myOrdersFragment = new HistoryFragment();
             AdditionalClass.replaceFragment(myOrdersFragment,Constants.HISTORY_FRAGMENT,MenuNavigationActivity.this);
+        }else if (id == R.id.nav_my_location)
+        {
+            MyLocationFragment myLocationFragment = new MyLocationFragment();
+            AdditionalClass.replaceFragment(myLocationFragment,Constants.MY_LOCATION_FRAGMENT,MenuNavigationActivity.this);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
