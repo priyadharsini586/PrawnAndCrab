@@ -16,15 +16,22 @@ public class Database  extends SQLiteOpenHelper {
     private static final String NAME= "NAME";
 
     private static final String DATABASE_NAME = "TABLE";
-    private static final String CREATE_TABLE_LIST ="table_list";
+
 
     private static final String CUSTOMER_ID = "customer_id";
     private static final String ID = "id";
     private static final  String CUSTOMER_NAME ="CUSTOMER_NAME";
     private static final  String CUSTOMER_PHONE ="CUSTOMER_PHONE";
     private static final  String CUSTOMER_E_MAIL ="CUSTOMER_E_MAIL";
+    private static final String USER_PROFILE_PIC= "profile_pic";
 
-   private static final String CUSTOMER_TABLE = "customer_table";
+    // Contacts table name
+    private static final String CUSTOMER_TABLE = "customer_table";
+    private static final String CREATE_TABLE_LIST ="table_list";
+    public static String customer_id;
+    public static String customer_phoneNo;
+    public static String profile_img;
+
 
     public Database(Context context) {
         super(context,DATABASE_NAME,null, DATABASE_VERSION);
@@ -32,9 +39,17 @@ public class Database  extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String TABLE="CREATE TABLE "+CREATE_TABLE_LIST+"("+KEY_ID +" TEXT,"+NAME +" TEXT"+")";
-        String CUSTOMER="CREATE TABLE "+CUSTOMER_TABLE+"("+CUSTOMER_ID +" TEXT,"+CUSTOMER_NAME+" TEXT,"+
-                CUSTOMER_PHONE+" TEXT,"+CUSTOMER_E_MAIL+" TEXT"+")";
+
+        String TABLE="CREATE TABLE "+CREATE_TABLE_LIST+"("
+                +KEY_ID +" TEXT,"
+                +NAME +" TEXT"+")";
+
+        String CUSTOMER="CREATE TABLE "+CUSTOMER_TABLE+"("
+                +CUSTOMER_ID +" TEXT,"
+                +CUSTOMER_NAME+" TEXT,"
+                + CUSTOMER_PHONE+" TEXT,"
+                + USER_PROFILE_PIC + " TEXT ,"
+                +CUSTOMER_E_MAIL+" TEXT"+")";
         sqLiteDatabase.execSQL(TABLE);
         sqLiteDatabase.execSQL(CUSTOMER);
     }
@@ -65,7 +80,7 @@ public class Database  extends SQLiteOpenHelper {
         db.close();
         return list;
     }
-    public  String getCustomerId() {
+    public  String getCustomerName() {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectQuery = "SELECT  * FROM " + CUSTOMER_TABLE;
@@ -74,9 +89,13 @@ public class Database  extends SQLiteOpenHelper {
 
         if (cursor != null)
             cursor.moveToFirst();
-
-
+       // customer_phone = cursor.getString()
+        customer_id = cursor.getString(0);
         String data = cursor.getString(1);
+        customer_phoneNo = cursor.getString(2);
+        profile_img = cursor.getString(3);
+        cursor.close();
+
 
         return data;
     }
@@ -123,4 +142,24 @@ public class Database  extends SQLiteOpenHelper {
             return false;
         }
     }
+
+    /*public String[] getUserName(String id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_USER_DETAILS, new String[] { USER_NAME,
+                        USER_MBL,USER_PROFILE_PIC,USER_TYPE}, USER_ID + "=?",
+                new String[] { String.valueOf(id) }, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+
+        String[] userDetails = {cursor.getString(0),cursor.getString(1),cursor.getString(2),cursor.getString(3)};
+
+        // return contact
+        return userDetails;
+    }*/
+
+
+
+
 }

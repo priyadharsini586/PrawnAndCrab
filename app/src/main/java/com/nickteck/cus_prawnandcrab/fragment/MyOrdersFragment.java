@@ -125,7 +125,7 @@ public class MyOrdersFragment extends Fragment implements MyOrdersAdapter.Callba
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                sendToDesktop();
+                              //  sendToDesktop();
                                 itemModel.setAlreadyPlace(true);
                                 txtPlaceItem.setVisibility(View.GONE);
                                 txtUpdateItem.setVisibility(View.VISIBLE);
@@ -241,7 +241,7 @@ public class MyOrdersFragment extends Fragment implements MyOrdersAdapter.Callba
         try {
             json.put("table", database.getData());
             json.put("from", "mobile");
-            json.put("cus_id",database.getCustomerId());
+            json.put("cus_id",database.getCustomerName());
             JSONArray itemArray = new JSONArray();
             for (int i=0;i<itemModel.getListArrayList().size();i++)
             {

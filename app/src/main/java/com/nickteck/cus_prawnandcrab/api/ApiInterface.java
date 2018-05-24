@@ -4,7 +4,9 @@ import com.nickteck.cus_prawnandcrab.model.AddWhislist;
 import com.nickteck.cus_prawnandcrab.model.HistoryModel;
 import com.nickteck.cus_prawnandcrab.model.ItemListRequestAndResponseModel;
 import com.nickteck.cus_prawnandcrab.model.LoginRequestAndResponse;
+import com.nickteck.cus_prawnandcrab.model.NotificationModel;
 import com.nickteck.cus_prawnandcrab.model.TableModel;
+import com.nickteck.cus_prawnandcrab.model.TestimonyDetails;
 
 
 import org.json.JSONObject;
@@ -63,6 +65,14 @@ public interface ApiInterface {
     @POST("cat_subcat_item_list.php")
     Call<ItemListRequestAndResponseModel> getItemBasedOnCat(@Field("x") JSONObject object);
 
+    @POST("notification_get.php")
+    Call<NotificationModel> getNotificationData();
 
+    @POST("testimony_list.php")
+    Call<TestimonyDetails> getTestimonyDetails();
+
+    @FormUrlEncoded
+    @POST("testimony_add.php")
+    Call<TestimonyDetails> sendTestimony(@Field("x") JSONObject object);
 
 }

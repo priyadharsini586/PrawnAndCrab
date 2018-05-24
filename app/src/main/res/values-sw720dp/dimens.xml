@@ -48,4 +48,11 @@
     <dimen name="order_item_incDec_padding">20dp</dimen>
     <dimen name="order_item_incDec_padding1">5dp</dimen>
 
+    <dimen name="edit_text_size">25sp</dimen>
+
+    <!-- leftBubble-->
+    <dimen name="testimony_username">14sp</dimen>
+    <dimen name="testimony_content">17sp</dimen>
+    <dimen name="testimony_time">10sp</dimen>
+
 </resources>
