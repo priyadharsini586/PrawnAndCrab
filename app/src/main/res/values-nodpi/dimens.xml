@@ -27,6 +27,8 @@
     <dimen name="badge_padding">-5dp</dimen>
     <dimen name="badge_margin">3dp</dimen>
 
+    <dimen name="edit_text_size">17sp</dimen>
+
 
     <!-- order taken fragment -->
     <dimen name="order_taken_grid_size">250dp</dimen>

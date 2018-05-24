@@ -1,14 +1,9 @@
 package com.nickteck.cus_prawnandcrab.activity;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,7 +16,6 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -38,6 +32,7 @@ import com.nickteck.cus_prawnandcrab.fragment.MyOrdersFragment;
 import com.nickteck.cus_prawnandcrab.fragment.OffersFragment;
 import com.nickteck.cus_prawnandcrab.fragment.OrderFragment;
 import com.nickteck.cus_prawnandcrab.fragment.OrderTakenScreenFragment;
+import com.nickteck.cus_prawnandcrab.fragment.TestimonyFragment;
 import com.nickteck.cus_prawnandcrab.gcm.QuickstartPreferences;
 import com.nickteck.cus_prawnandcrab.gcm.RegistrationIntentService;
 
@@ -184,6 +179,9 @@ public class MenuNavigationActivity extends AppCompatActivity
         {
             MyLocationFragment myLocationFragment = new MyLocationFragment();
             AdditionalClass.replaceFragment(myLocationFragment,Constants.MY_LOCATION_FRAGMENT,MenuNavigationActivity.this);
+        } else if (id == R.id.nav_testimony) {
+            TestimonyFragment testimonyFragment = new TestimonyFragment();
+            AdditionalClass.replaceFragment(testimonyFragment,Constants.TESTIMONY_FRAGMENT,MenuNavigationActivity.this);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -238,4 +236,47 @@ public class MenuNavigationActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+        isReceiverRegistered = false;
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver();
+    }
+
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+    private void registerReceiver(){
+        if(!isReceiverRegistered) {
+            LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                    new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
+            isReceiverRegistered = true;
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        TestimonyFragment testimonyFragment = new TestimonyFragment();
+        testimonyFragment.onActivityResult(requestCode,resultCode,data);
+    }
 }

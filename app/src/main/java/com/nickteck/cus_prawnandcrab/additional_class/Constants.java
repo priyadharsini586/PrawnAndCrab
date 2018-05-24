@@ -16,6 +16,7 @@ public class Constants {
 
     public static String Success = "1";
     public static String Failure = "0";
+    public static String status_code1 = "1";
 
     public static final int NOTIFICATION_ID = 100;
     public static final int NOTIFICATION_ID_BIG_IMAGE = 101;
@@ -36,6 +37,7 @@ public class Constants {
     public static String MY_ORDERS_FRAGMENT = "MY_ORDERS_FRAGMENT";
     public static String ORDER_TAKEN_FRAGMENT = "ORDER_TAKEN_FRAGMENT";
     public static String HISTORY_FRAGMENT = "HISTORY_FRAGMENT";
+    public static String TESTIMONY_FRAGMENT = "TESTIMONY_FRAGMENT";
     public static String ORDER_FRAGMENT = "ORDER_FRAGMENT";
     public static String OFFERS_FRAGMENT = "OFFERS_FRAGMENT";
     public static String MY_LOCATION_FRAGMENT = "MY_LOCATION_FRAGMENT";

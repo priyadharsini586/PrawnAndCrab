@@ -26,6 +26,13 @@
     <dimen name="item_des_text_size">15sp</dimen>
     <dimen name="item_price_text_size">16sp</dimen>
 
+    <!-- leftBubble-->
+    <dimen name="testimony_username">14sp</dimen>
+    <dimen name="testimony_content">17sp</dimen>
+    <dimen name="testimony_time">10sp</dimen>
+
+    <dimen name="edit_text_size">10sp</dimen>
+
 
     <!-- Login -->
     <dimen name="login_logo_size">350dp</dimen>

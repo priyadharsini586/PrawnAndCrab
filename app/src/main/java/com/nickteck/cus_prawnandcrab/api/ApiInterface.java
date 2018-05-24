@@ -6,6 +6,7 @@ import com.nickteck.cus_prawnandcrab.model.ItemListRequestAndResponseModel;
 import com.nickteck.cus_prawnandcrab.model.LoginRequestAndResponse;
 import com.nickteck.cus_prawnandcrab.model.NotificationModel;
 import com.nickteck.cus_prawnandcrab.model.TableModel;
+import com.nickteck.cus_prawnandcrab.model.TestimonyDetails;
 
 
 import org.json.JSONObject;
@@ -66,5 +67,12 @@ public interface ApiInterface {
 
     @POST("notification_get.php")
     Call<NotificationModel> getNotificationData();
+
+    @POST("testimony_list.php")
+    Call<TestimonyDetails> getTestimonyDetails();
+
+    @FormUrlEncoded
+    @POST("testimony_add.php")
+    Call<TestimonyDetails> sendTestimony(@Field("x") JSONObject object);
 
 }

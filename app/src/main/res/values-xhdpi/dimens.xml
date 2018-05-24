@@ -52,4 +52,12 @@
     <dimen name="offer_des">13sp</dimen>
     <dimen name="offer_padding">15dp</dimen>
     <dimen name="offer_text_padding">5dp</dimen>
+    <dimen name="edit_text_size">15sp</dimen>
+
+    <!-- leftBubble-->
+    <dimen name="testimony_username">13sp</dimen>
+    <dimen name="testimony_content">16sp</dimen>
+    <dimen name="testimony_time">10sp</dimen>
+
+
 </resources>
