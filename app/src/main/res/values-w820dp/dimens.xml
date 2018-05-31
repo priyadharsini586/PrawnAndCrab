@@ -17,6 +17,14 @@
     <dimen name="item_des_text_size">15sp</dimen>
     <dimen name="item_price_text_size">16sp</dimen>
 
+    <dimen name="vip_gallery_image_view_width">295dp</dimen>
+    <dimen name="vip_gallery_image_view_height">295dp</dimen>
+
+    <dimen name="view_pager_size_width">750dp</dimen>
+    <dimen name="view_pager_size_height">750dp</dimen>
+
+    <dimen name="view_pager_image_size_width">700dp</dimen>
+    <dimen name="view_pager_image_size_height">700dp</dimen>
     <!-- Login -->
     <dimen name="login_logo_size">350dp</dimen>
     <dimen name="login_padding">20dp</dimen>

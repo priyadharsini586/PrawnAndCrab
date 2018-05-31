@@ -9,8 +9,10 @@ import java.util.ArrayList;
 
 public class ItemModel {
 
+
     ArrayList<ItemListRequestAndResponseModel.item_list>listArrayList = new ArrayList<>();
     boolean alreadyPlace = false;
+    String fromYoutube = "false";
 
     private static ItemModel ourInstance = new ItemModel();
     public static ItemModel getInstance() {
@@ -31,5 +33,13 @@ public class ItemModel {
 
     public void setAlreadyPlace(boolean alreadyPlace) {
         this.alreadyPlace = alreadyPlace;
+    }
+
+    public String isFromYoutube() {
+        return fromYoutube;
+    }
+
+    public void setFromYoutube(String fromYoutube) {
+        this.fromYoutube = fromYoutube;
     }
 }

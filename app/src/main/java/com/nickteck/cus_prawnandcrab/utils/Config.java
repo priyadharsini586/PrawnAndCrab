@@ -7,7 +7,8 @@ package com.nickteck.cus_prawnandcrab.utils;
 public class Config {
     // Google Console APIs developer key
     // Replace this key with your's
-    public static final String DEVELOPER_KEY = "AIzaSyDjv06RUfxV6rRzmuUQWpolG9Bm2eCqPvA";
+    public static final String DEVELOPER_KEY = "AIzaSyCpNgfdaqcXd4EtqjRS68nPvW7GHbBGCrY";
+
 
     // YouTube video id
     public static final String YOUTUBE_VIDEO_CODE = "dWndJ20ykSg";

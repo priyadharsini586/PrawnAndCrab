@@ -95,8 +95,8 @@ public class MyLocationFragment extends Fragment implements
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        destination = "Classisc Apartments, V V Colony Cross Street, Adambakkam,chennai ";
-        destination=destination.replace(" ","+");
+       /* destination = "Classisc Apartments, V V Colony Cross Street, Adambakkam,chennai ";
+        destination=destination.replace(" ","+");*/
 
 
 
@@ -105,7 +105,7 @@ public class MyLocationFragment extends Fragment implements
     }
 
 
-    private class GeocoderHandler extends Handler {
+    /*private class GeocoderHandler extends Handler {
         @Override
         public void handleMessage(Message message) {
             String locationAddress;
@@ -128,7 +128,7 @@ public class MyLocationFragment extends Fragment implements
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
 
         }
-    }
+    }*/
 
     @Override
     public void onPause() {
@@ -157,6 +157,10 @@ public class MyLocationFragment extends Fragment implements
         markerOptions.title("Destination");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
         mGoogleMap.addMarker(markerOptions);
+
+
+
+
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(getActivity(),
@@ -198,6 +202,15 @@ public class MyLocationFragment extends Fragment implements
                 markerOptions.title("Current Position");
                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
                 mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
+
+                /*//--------// place static current location marker for 1 st location
+                LatLng location1 = new LatLng(12.98526797, 80.20933697);
+                MarkerOptions markerOptions1 = new MarkerOptions();
+                markerOptions.position(location1);
+                markerOptions.title("Location One");
+                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+                mGoogleMap.addMarker(markerOptions1);*/
+
 
                 //move map camera
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));

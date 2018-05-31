@@ -243,9 +243,6 @@ public class TestimonyFragment extends Fragment implements NetworkChangeReceiver
                                      TestimonyDetails testimonyDetails = response.body();
                                      if (testimonyDetails.getStatus_code().equals(Constants.SUCCESS)) {
                                          if(testimonyDetails.getTestimony_list() != null){
-                                              int va = testimonyDetails.getTestimony_list().size();
-                                             Toast.makeText(getActivity(), ""+va, Toast.LENGTH_SHORT).show();
-
                                              for(int i=0; i<testimonyDetails.getTestimony_list().size(); i++){
 
                                                  TestimonyDetails.TestimonyList testimonyList= testimonyDetails.getTestimony_list().get(i);
@@ -333,10 +330,10 @@ public class TestimonyFragment extends Fragment implements NetworkChangeReceiver
                 database.getCustomerName();
                 jsonObject.put("customer_id",Database.customer_id);
                 jsonObject.put("message",edtContent.getText().toString().trim());
+                progress.setVisibility(View.VISIBLE);
+
                 if (testimonyDetails.getImageBitmap() != null) {
                     jsonObject.put("image", utilsClass.BitMapToString(testimonyDetails.getImageBitmap()));
-                    int imageSize = testimonyDetails.getImageBitmap().getByteCount();
-                    Toast.makeText(getActivity(), ""+imageSize, Toast.LENGTH_SHORT).show();
                 }else {
                     jsonObject.put("image","");
                 }
@@ -352,48 +349,56 @@ public class TestimonyFragment extends Fragment implements NetworkChangeReceiver
 
                 @Override
                 public void onResponse(Call<TestimonyDetails> call, Response<TestimonyDetails> response) {
-                    TestimonyDetails testimonyDetail = response.body();
+                    if(response.isSuccessful()) {
+                        TestimonyDetails testimonyDetail = response.body();
+                        //    Log.d("testimony",response.body().toString());
 
-                    if (testimonyDetail.getStatuscode().equals(Constants.SUCCESS)){
-                        int[] androidColors = getResources().getIntArray(R.array.androidcolors);
-                        int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
+                        if (testimonyDetail.getStatuscode().equals(Constants.SUCCESS)) {
+                            int[] androidColors = getResources().getIntArray(R.array.androidcolors);
+                            int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
 
-                        TestimonyDetails details = new TestimonyDetails();
+                            TestimonyDetails details = new TestimonyDetails();
 
-                        details.setMessage(edtContent.getText().toString().trim());
-                        myMessage = true;
-                        details.setMyMessage(myMessage);
-                        details.setName(userRegisterDetails.getUserName());
-                        details.setFrom("me");
+                            details.setMessage(edtContent.getText().toString().trim());
+                            myMessage = true;
+                            details.setMyMessage(myMessage);
+                            details.setName(userRegisterDetails.getUserName());
+                            details.setFrom("me");
 
-                        Database database = new Database(getActivity());
-                        details.setName(database.getCustomerName());
-                        currentDateTime = getCurrentDate();
-                        details.setDate(currentDateTime);
-                        details.setPhone(Database.customer_phoneNo);
-                        details.setProfilePic(Database.profile_img);
+                            Database database = new Database(getActivity());
+                            details.setName(database.getCustomerName());
+                            currentDateTime = getCurrentDate();
+                            details.setDate(currentDateTime);
+                            details.setPhone(Database.customer_phoneNo);
+                            details.setProfilePic(Database.profile_img);
 
-                        if (testimonyDetails.getImageBitmap() != null)
-                            details.setTestimonyPic(utilsClass.BitMapToString(testimonyDetails.getImageBitmap()));
-                        details.setColorCode(randomAndroidColor);
+                            if (testimonyDetails.getImageBitmap() != null)
+                                details.setTestimonyPic(utilsClass.BitMapToString(testimonyDetails.getImageBitmap()));
+                            details.setColorCode(randomAndroidColor);
 
-                        chatBubbles.add(details);
+                            chatBubbles.add(details);
 
-                        list_msg.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                // Select the last row so it will scroll into view...
-                                list_msg.setSelection(adapter.getCount() - 1);
-                            }
-                        });
-                        myMessage = false;
-                        adapter.notifyDataSetChanged();
-                        edtContent.setText("");
-                        imgCloseImg.performClick();
+                            list_msg.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // Select the last row so it will scroll into view...
+                                    list_msg.setSelection(adapter.getCount() - 1);
+                                }
+                            });
+                            testimonyDetails.setImageBitmap(null);
+                            myMessage = false;
+                            adapter.notifyDataSetChanged();
+                            edtContent.setText("");
+                            imgCloseImg.performClick();
+                            progress.setVisibility(View.GONE);
+
+                            rldNoReview.setVisibility(View.GONE);
+                            rldReview.setVisibility(View.VISIBLE);
+                        }
+                    }else
+                    {
+                        Toast.makeText(getActivity(),"Error in  server",Toast.LENGTH_LONG).show();
                         progress.setVisibility(View.GONE);
-
-                        rldNoReview.setVisibility(View.GONE);
-                        rldReview.setVisibility(View.VISIBLE);
                     }
                 }
 
@@ -401,6 +406,7 @@ public class TestimonyFragment extends Fragment implements NetworkChangeReceiver
                 public void onFailure(Call<TestimonyDetails> call, Throwable t) {
                     t.fillInStackTrace();
                     Toast.makeText(getActivity(), ""+t, Toast.LENGTH_SHORT).show();
+                    progress.setVisibility(View.GONE);
 
 
 
@@ -438,8 +444,7 @@ public class TestimonyFragment extends Fragment implements NetworkChangeReceiver
                 break;
             case R.id.imgCloseImg:
                 rldSendImage.setVisibility(View.GONE);
-                //-------------------------//
-              //  testimonyDetails.setImageBitmap(null);
+                testimonyDetails.setImageBitmap(null);
                 break;
         }
 

@@ -46,6 +46,16 @@
 
     <dimen name="edit_text_size">15sp</dimen>
 
+    <dimen name="vip_gallery_image_view_width">100dp</dimen>
+    <dimen name="vip_gallery_image_view_height">100dp</dimen>
+
+
+    <dimen name="view_pager_size_width">250dp</dimen>
+    <dimen name="view_pager_size_height">250dp</dimen>
+
+    <dimen name="view_pager_image_size_width">200dp</dimen>
+    <dimen name="view_pager_image_size_height">200dp</dimen>
+
     <!-- order item fragment -->
     <dimen name="order_item_padding">10dp</dimen>
     <dimen name="order_item_image_height">130dp</dimen>

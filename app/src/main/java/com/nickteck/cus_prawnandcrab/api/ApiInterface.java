@@ -7,6 +7,8 @@ import com.nickteck.cus_prawnandcrab.model.LoginRequestAndResponse;
 import com.nickteck.cus_prawnandcrab.model.NotificationModel;
 import com.nickteck.cus_prawnandcrab.model.TableModel;
 import com.nickteck.cus_prawnandcrab.model.TestimonyDetails;
+import com.nickteck.cus_prawnandcrab.model.VideoGalleryList;
+import com.nickteck.cus_prawnandcrab.model.VipGalleryDetails;
 
 
 import org.json.JSONObject;
@@ -74,5 +76,13 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("testimony_add.php")
     Call<TestimonyDetails> sendTestimony(@Field("x") JSONObject object);
+
+
+    @POST("vip_gallery_list.php")
+    Call<VipGalleryDetails> getVipGalleryList();
+
+    @POST("video_gallery_list.php")
+    Call<VideoGalleryList> getVideoGalleryList();
+
 
 }

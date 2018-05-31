@@ -40,13 +40,35 @@
 
         <item
             android:id="@+id/nav_my_location"
-            android:icon="@drawable/ic_today_spl_menu"
+            android:icon="@drawable/ic_location"
             android:title="Location" />
+
+        <item
+            android:id="@+id/nav_find_location"
+            android:icon="@drawable/ic_find_location"
+            android:title="Find Location" />
 
         <item
             android:id="@+id/nav_testimony"
             android:icon="@drawable/testimony"
             android:title="Testimony" />
+
+        <item
+            android:id="@+id/nav_vip_gallery"
+            android:icon="@drawable/ic_gallery"
+            android:title="Vip Gallery" />
+
+        <item
+            android:id="@+id/nav_vip_video_gallery"
+            android:icon="@drawable/ic_video"
+            android:title="Videos" />
+
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_share"
+            android:title="Share" />
+
+
 
 
 

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.nickteck.cus_prawnandcrab.Db.Database;
 import com.nickteck.cus_prawnandcrab.R;
+import com.nickteck.cus_prawnandcrab.additional_class.Constants;
 import com.nickteck.cus_prawnandcrab.image_cache.ImageLoader;
 import com.nickteck.cus_prawnandcrab.model.TestimonyDetails;
 import com.nickteck.cus_prawnandcrab.model.UserRegisterDetails;
@@ -128,7 +129,7 @@ public class TestimonyAdapter extends BaseAdapter {
             if (chatBubble.getTestimonyPic() != null) {
 //            holder.imgMsg.setImageBitmap(chatBubble.getImageBitmap());
                 holder.imgMsg.setVisibility(View.VISIBLE);
-                imageLoader.DisplayImage(chatBubble.getTestimonyPic(), holder.imgMsg, R.mipmap.ic_testimony_user_name);
+                imageLoader.DisplayImage(Constants.IMAGE_URI+chatBubble.getTestimonyPic(), holder.imgMsg, R.mipmap.ic_testimony_user_name);
             } else
                 holder.imgMsg.setVisibility(View.GONE);
         }else if (chatBubble.getFrom().equals("me")) {

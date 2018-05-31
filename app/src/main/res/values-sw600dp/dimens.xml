@@ -29,6 +29,15 @@
     <dimen name="badge_padding">-5dp</dimen>
     <dimen name="badge_margin">3dp</dimen>
 
+    <dimen name="vip_gallery_image_view_width">285dp</dimen>
+    <dimen name="vip_gallery_image_view_height">285dp</dimen>
+
+    <dimen name="view_pager_size_width">550dp</dimen>
+    <dimen name="view_pager_size_height">550dp</dimen>
+
+    <dimen name="view_pager_image_size_width">500dp</dimen>
+    <dimen name="view_pager_image_size_height">500dp</dimen>
+
     <!-- order taken fragment -->
     <dimen name="order_taken_grid_size">250dp</dimen>
     <dimen name="item_image_Width">130dp</dimen>

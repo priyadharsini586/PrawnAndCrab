@@ -94,7 +94,8 @@ public class Database  extends SQLiteOpenHelper {
         String data = cursor.getString(1);
         customer_phoneNo = cursor.getString(2);
         profile_img = cursor.getString(3);
-        cursor.close();
+
+        db.close();
 
 
         return data;
@@ -114,6 +115,7 @@ public class Database  extends SQLiteOpenHelper {
 
 
         String data = cursor.getString(1);
+        db.close();
 
         return data;
     }
@@ -141,6 +143,7 @@ public class Database  extends SQLiteOpenHelper {
             cursor.close();
             return false;
         }
+
     }
 
     /*public String[] getUserName(String id) {

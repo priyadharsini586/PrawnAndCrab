@@ -41,6 +41,10 @@ public class Constants {
     public static String ORDER_FRAGMENT = "ORDER_FRAGMENT";
     public static String OFFERS_FRAGMENT = "OFFERS_FRAGMENT";
     public static String MY_LOCATION_FRAGMENT = "MY_LOCATION_FRAGMENT";
+    public static String FIND_LOCATION_FRAGMENT = "FIND_LOCATION_FRAGMENT";
+    public static String VIP_GALLERY_FRAGMENT = "VIP_GALLERY_FRAGMENT";
+    public static String VIDEO_GALLERY_FRAGMENT = "VIDEO_GALLERY_FRAGMENT";
+    public static String YOU_TUBE_VIDEO_FRAGMENT = "VIDEO_GALLERY_FRAGMENT";
 
     //SharedPreferences
     public static String PREFS_NAME = "RESTARANT_APP";
@@ -49,4 +53,6 @@ public class Constants {
 
     public static String fromMore = "fromMore";
     public static String daily_health_tips = "DailyHealthTipsFragment";
+    public static String IMAGE_URI = "http://prawnandcrab.com/webservice/images/testimony/";
+    public static String VIP_GALLERY_IMAGE_URI = "http://prawnandcrab.com/webservice/images/vipgallery/";
 }
