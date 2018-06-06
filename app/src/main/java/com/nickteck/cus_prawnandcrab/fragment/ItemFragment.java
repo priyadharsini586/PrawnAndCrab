@@ -1,3 +1,4 @@
+/*
 package com.nickteck.cus_prawnandcrab.fragment;
 
 
@@ -400,3 +401,4 @@ public class ItemFragment extends Fragment implements NetworkChangeReceiver.Conn
         }
     }
 }
+*/

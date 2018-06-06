@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nickteck.cus_prawnandcrab.Db.Database;
 import com.nickteck.cus_prawnandcrab.additional_class.Constants;
 import com.nickteck.cus_prawnandcrab.api.ApiInterface;
 import com.nickteck.cus_prawnandcrab.interfaceFol.ItemListener;
@@ -36,8 +37,10 @@ import com.nickteck.cus_prawnandcrab.additional_class.RecyclerTouchListener;
 import com.nickteck.cus_prawnandcrab.api.ApiClient;
 import com.nickteck.cus_prawnandcrab.api.ApiInterface;
 import com.nickteck.cus_prawnandcrab.interfaceFol.ItemListener;
+import com.nickteck.cus_prawnandcrab.model.FavouriteListData;
 import com.nickteck.cus_prawnandcrab.model.ItemListRequestAndResponseModel;
 import com.nickteck.cus_prawnandcrab.model.ItemModel;
+import com.nickteck.cus_prawnandcrab.model.LoginRequestAndResponse;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -77,6 +80,9 @@ public class OrderTakenScreenFragment extends Fragment implements ItemListener{
     LinearLayout ldtPlaceOrder,ldtSpinner;
     Spinner cat_spinner;
     private boolean isSpinnerTouched = false;
+    private ArrayList<String> itemIdList = new ArrayList();
+    Database database;
+    ArrayList<FavouriteListData.FavouriteListDetails> favouriteListDetails_adapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -247,6 +253,8 @@ public class OrderTakenScreenFragment extends Fragment implements ItemListener{
         getSubCategoryData();
         getVarietyData();
         getItemList();
+        // get Favourite list for to check the item id in adapter
+        getFavouriteListApi();
         return view;
     }
 
@@ -313,6 +321,8 @@ public class OrderTakenScreenFragment extends Fragment implements ItemListener{
                             items.setDescription(items.getDescription());
                             items.setPrice(items.getPrice());
                             items.setImage(items.getImage());
+                            if (itemIdList.contains(items.getItem_id()))
+                                items.setFavorite(true);
                             String url=ITEM_BASE_URL+items.getImage();
                             Log.e("sub catagory url",url);
                             items.setFavourite("0");
@@ -335,7 +345,7 @@ public class OrderTakenScreenFragment extends Fragment implements ItemListener{
 
                         }
                         tempItemList.addAll(gridImageList);
-                        itemAdapter=new ItemAdapter(gridImageList,getActivity());
+                        itemAdapter=new ItemAdapter(gridImageList,favouriteListDetails_adapter,getActivity(),getActivity(),OrderTakenScreenFragment.this );
                         itemAdapter.setListener(OrderTakenScreenFragment.this);
                         item_recycler_view.setAdapter(itemAdapter);
                         final LayoutAnimationController controller =
@@ -543,7 +553,7 @@ public class OrderTakenScreenFragment extends Fragment implements ItemListener{
 
                                     }
                                 }
-                                itemAdapter = new ItemAdapter(gridImageList, getActivity());
+                                itemAdapter =  new ItemAdapter(gridImageList,favouriteListDetails_adapter,getActivity(),getActivity(),OrderTakenScreenFragment.this );
                                 itemAdapter.setListener(OrderTakenScreenFragment.this);
                                 item_recycler_view.setAdapter(itemAdapter);
                                 final LayoutAnimationController controller =
@@ -724,5 +734,98 @@ public class OrderTakenScreenFragment extends Fragment implements ItemListener{
 
             }
         });
+    }
+
+    public void addFavouriteApi(String getSpecificItemId,final int pos) {
+       // progress_ratings.setVisibility(View.VISIBLE);
+
+        database = new Database(getActivity());
+        database.getCustomerName();
+        // api call for the add favourite list
+        apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("customer_id", Database.customer_id);
+            jsonObject.put("item_id", getSpecificItemId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Call<LoginRequestAndResponse> ratingResponseModelCall = apiInterface.addFavouriteList(jsonObject);
+        ratingResponseModelCall.enqueue(new Callback<LoginRequestAndResponse>() {
+            @Override
+            public void onResponse(Call<LoginRequestAndResponse> call, Response<LoginRequestAndResponse> response) {
+                if (response.isSuccessful()){
+                    if(response.body().getStatusCode().equals("1")){
+                        Toast.makeText(getActivity(), "Favourite Added Successfully", Toast.LENGTH_SHORT).show();
+                        ItemListRequestAndResponseModel.item_list item_list = gridImageList.get(pos);
+                        item_list.setFavorite(true);
+                        itemAdapter.notifyDataSetChanged();
+                        itemAdapter.currentChangeFavouriteIcon();
+                       // progress_ratings.setVisibility(View.GONE);
+                    }else {
+                        Toast.makeText(getActivity(), "Favorite Already Exists.", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            }
+            @Override
+            public void onFailure(Call<LoginRequestAndResponse> call, Throwable t) {
+                Toast.makeText(getActivity(), "Server Error", Toast.LENGTH_SHORT).show();
+               // progress_ratings.setVisibility(View.GONE);
+
+            }
+        });
+
+
+    }
+
+    private void getFavouriteListApi() {
+
+        database = new Database(getActivity());
+        favouriteListDetails_adapter = new ArrayList<>();
+        database.getCustomerName();
+        apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("customer_id", Database.customer_id);
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        final Call<FavouriteListData> favouriteListDataCall = apiInterface.FavouriteListDetails(jsonObject);
+        favouriteListDataCall.enqueue(new Callback<FavouriteListData>() {
+
+
+            @Override
+            public void onResponse(Call<FavouriteListData> call, Response<FavouriteListData> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().getStatus_code().equals("1")) {
+                        FavouriteListData favouriteListData = response.body();
+                        itemIdList = new ArrayList<>();
+                        for (int i = 0; i < favouriteListData.getList().size(); i++) {
+                            favouriteListData.getList().get(i).getSno();
+                            favouriteListData.getList().get(i).getItem_id();
+                            String itemId = favouriteListData.getList().get(i).getItem_id();
+                            itemIdList.add(itemId);
+
+                            /*FavouriteListData.FavouriteListDetails favouriteListDetails = favouriteListData.getList().get(i);
+                            favouriteListDetails_adapter.add(favouriteListDetails);*/
+                            getItemList();
+                        }
+                    }else if (response.body().getStatus_code().equals(Constants.Failure)) {
+                        getItemList();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FavouriteListData> call, Throwable t) {
+
+            }
+        });
+
+
+
     }
 }

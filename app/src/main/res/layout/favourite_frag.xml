@@ -6,5 +6,21 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtfavouriteList"
+        android:text="No Favourite List"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:textColor="@color/black_color"
+        android:textSize="@dimen/item_heading_text_size"/>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/progress"/>
 </RelativeLayout>

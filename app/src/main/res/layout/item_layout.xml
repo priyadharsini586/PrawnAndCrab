@@ -16,6 +16,7 @@
         android:paddingLeft="@dimen/item_padding"
         android:paddingRight="@dimen/item_padding">
         <LinearLayout
+            android:id="@+id/selected_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

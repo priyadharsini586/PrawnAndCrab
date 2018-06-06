@@ -1,6 +1,7 @@
 package com.nickteck.cus_prawnandcrab.api;
 
 import com.nickteck.cus_prawnandcrab.model.AddWhislist;
+import com.nickteck.cus_prawnandcrab.model.FavouriteListData;
 import com.nickteck.cus_prawnandcrab.model.HistoryModel;
 import com.nickteck.cus_prawnandcrab.model.ItemListRequestAndResponseModel;
 import com.nickteck.cus_prawnandcrab.model.LoginRequestAndResponse;
@@ -83,6 +84,19 @@ public interface ApiInterface {
 
     @POST("video_gallery_list.php")
     Call<VideoGalleryList> getVideoGalleryList();
+
+
+    @FormUrlEncoded
+    @POST("favourite_add.php")
+    Call<LoginRequestAndResponse> addFavouriteList(@Field("x") JSONObject object);
+
+    @FormUrlEncoded
+    @POST("favourite_list.php")
+    Call<FavouriteListData> FavouriteListDetails(@Field("x") JSONObject object);
+
+    @FormUrlEncoded
+    @POST("favourite_delete.php")
+    Call<LoginRequestAndResponse> FavouriteDelete(@Field("x") JSONObject object);
 
 
 }

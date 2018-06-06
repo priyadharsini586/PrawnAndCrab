@@ -1,3 +1,4 @@
+/*
 package com.nickteck.cus_prawnandcrab.fragment;
 
 
@@ -143,7 +144,8 @@ public class CatagoryFragment extends Fragment {
                             categoryList.setImage(url);
                             catList.add(categoryList);
                         }
-                  /*      CatagoryAdapter gridAdapter=new CatagoryAdapter(getActivity(),catList);
+                  */
+/*      CatagoryAdapter gridAdapter=new CatagoryAdapter(getActivity(),catList);
                         catagory.setAdapter(gridAdapter);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
                         catagory.setLayoutManager(linearLayoutManager);
@@ -153,7 +155,8 @@ public class CatagoryFragment extends Fragment {
                         catagory.setLayoutAnimation(controller);
                         catagory.getAdapter().notifyDataSetChanged();
                         catagory.scheduleLayoutAnimation();
-                        gridAdapter.notifyDataSetChanged();*/
+                        gridAdapter.notifyDataSetChanged();*//*
+
 
                     }
                 }
@@ -167,3 +170,4 @@ public class CatagoryFragment extends Fragment {
     }
 
 }
+*/

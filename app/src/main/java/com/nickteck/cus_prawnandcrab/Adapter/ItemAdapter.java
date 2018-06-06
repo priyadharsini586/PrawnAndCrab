@@ -1,13 +1,18 @@
 package com.nickteck.cus_prawnandcrab.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,6 +23,7 @@ import com.nickteck.cus_prawnandcrab.additional_class.AdditionalClass;
 import com.nickteck.cus_prawnandcrab.additional_class.Constants;
 import com.nickteck.cus_prawnandcrab.fragment.OrderTakenScreenFragment;
 import com.nickteck.cus_prawnandcrab.interfaceFol.ItemListener;
+import com.nickteck.cus_prawnandcrab.model.FavouriteListData;
 import com.nickteck.cus_prawnandcrab.model.ItemListRequestAndResponseModel;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -34,10 +40,20 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     ArrayList<ItemListRequestAndResponseModel.item_list> gridImageList;
 
     Context context;
+    Activity activity;
+    OrderTakenScreenFragment morderTakenFragment;
+    ArrayList<FavouriteListData.FavouriteListDetails> mfavouriteArrayList;
+    private String favouriteStaus_item_id;
+    public ImageView favouriate_iamge;
 
-    public ItemAdapter(ArrayList<ItemListRequestAndResponseModel.item_list> gridImageList, Context context) {
+    public ItemAdapter(ArrayList<ItemListRequestAndResponseModel.item_list> gridImageList, ArrayList<FavouriteListData.FavouriteListDetails>
+            favouriteArrayList, Context context, Activity activity, OrderTakenScreenFragment orderTakenScreenFragment) {
         this.gridImageList = gridImageList;
         this.context = context;
+        this.activity = activity;
+        this.morderTakenFragment = orderTakenScreenFragment;
+        this.mfavouriteArrayList = favouriteArrayList;
+
 
     }
 
@@ -154,6 +170,99 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             }
         });
 
+        holder.selected_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialoge(position,holder.list,holder);
+            }
+        });
+
+    }
+
+    private void openDialoge(final int position, final ItemListRequestAndResponseModel.item_list list, ViewHolder holder) {
+
+        AlertDialog.Builder alertbox = new AlertDialog.Builder(context);
+        LayoutInflater inflater = activity.getLayoutInflater();
+
+        View alertLayout = inflater.inflate(R.layout.open_image_favourite_dialoge, null);
+        ImageView imageClose = (ImageView) alertLayout.findViewById(R.id.imgClose);
+        ImageView imageView_selected_image = (ImageView) alertLayout.findViewById(R.id.selected_image_dialoge);
+        TextView description  = (TextView) alertLayout.findViewById(R.id.image_description);
+        TextView selected_food_price = (TextView) alertLayout.findViewById(R.id.selected_item_price);
+        favouriate_iamge = (ImageView) alertLayout.findViewById(R.id.favorite_image_click);
+
+        Picasso.with(context)
+                .load(holder.list.getImage()) // image url goes here
+                .placeholder(R.drawable.cook8)
+                .into(imageView_selected_image);
+        description.setText(" Description : "+ holder.list.getDescription());
+        selected_food_price.setText(" RS : "+ holder.list.getPrice());
+
+        alertbox.setView(alertLayout);
+        final AlertDialog alert = alertbox.create();
+
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        Window window = alert.getWindow();
+
+        alert.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        layoutParams.copyFrom(window.getAttributes());
+
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        // alert.getWindow().setAttributes(layoutParams);
+        layoutParams.gravity = Gravity.BOTTOM;
+        window.setAttributes(layoutParams);
+        alert.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation_2;
+        alert.show();
+
+
+        ItemListRequestAndResponseModel.item_list item_list = gridImageList.get(position);
+        if (item_list.isFavorite()) {
+            favouriate_iamge.setImageResource(R.mipmap.ic_like_heart);
+        }else {
+            favouriate_iamge.setImageResource(R.mipmap.ic_unclick_heart);
+        }
+
+        String getItemId = gridImageList.get(position).getItem_id();
+        if(mfavouriteArrayList.size()>0){
+            for(int i=0;i<mfavouriteArrayList.size(); i++){
+                if(mfavouriteArrayList.get(i).getItem_id().equals(getItemId)){
+                    favouriteStaus_item_id = mfavouriteArrayList.get(i).getItem_id();
+                }else {
+                    favouriate_iamge.setImageResource(R.mipmap.ic_unclick_heart);
+                }
+            }
+        }
+
+        if(favouriteStaus_item_id != null){
+            favouriate_iamge.setImageResource(R.mipmap.ic_like_heart);
+            favouriteStaus_item_id = null;
+        }
+
+        //  setFavouriteStatus(favouriteStaus_item_id);
+
+        imageClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+            }
+        });
+
+        favouriate_iamge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String getSpecificItemId = list.getItem_id();
+                morderTakenFragment.addFavouriteApi(getSpecificItemId,position);
+            }
+        });
+
+
+
+
+    }
+
+    public void currentChangeFavouriteIcon(){
+        favouriate_iamge.setImageResource(R.mipmap.ic_like_heart);
     }
 
 
@@ -177,6 +286,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
         ItemListRequestAndResponseModel.item_list list;
         ImageView img,favoriteImg,imgMinus,imgAdd,imgNotes;
+        LinearLayout selected_item;
 
 
         ViewHolder(View view) {
@@ -191,6 +301,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             txtNumQty = (TextView) view.findViewById(R.id.txtNumQty);
             txtTotalPrice = (TextView) view.findViewById(R.id.txtTotalPrice);
             imgNotes = (ImageView) view.findViewById(R.id.imgNotes);
+            selected_item = (LinearLayout)view.findViewById(R.id.selected_item);
 
     }
 
