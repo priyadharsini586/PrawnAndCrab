@@ -195,8 +195,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 .load(holder.list.getImage()) // image url goes here
                 .placeholder(R.drawable.cook8)
                 .into(imageView_selected_image);
-        description.setText(" Description : "+ holder.list.getDescription());
-        selected_food_price.setText(" RS : "+ holder.list.getPrice());
+        description.setText(holder.list.getDescription());
+        selected_food_price.setText(holder.list.getPrice());
 
         alertbox.setView(alertLayout);
         final AlertDialog alert = alertbox.create();
@@ -218,26 +218,26 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
         ItemListRequestAndResponseModel.item_list item_list = gridImageList.get(position);
         if (item_list.isFavorite()) {
-            favouriate_iamge.setImageResource(R.mipmap.ic_like_heart);
+            favouriate_iamge.setImageResource(R.mipmap.t1_filled_heart);
         }else {
-            favouriate_iamge.setImageResource(R.mipmap.ic_unclick_heart);
+            favouriate_iamge.setImageResource(R.mipmap.ic_ic_unclickheart);
         }
 
-        String getItemId = gridImageList.get(position).getItem_id();
+       /* String getItemId = gridImageList.get(position).getItem_id();
         if(mfavouriteArrayList.size()>0){
             for(int i=0;i<mfavouriteArrayList.size(); i++){
                 if(mfavouriteArrayList.get(i).getItem_id().equals(getItemId)){
                     favouriteStaus_item_id = mfavouriteArrayList.get(i).getItem_id();
                 }else {
-                    favouriate_iamge.setImageResource(R.mipmap.ic_unclick_heart);
+                    favouriate_iamge.setImageResource(R.mipmap.ic_ic_unclickheart);
                 }
             }
         }
 
         if(favouriteStaus_item_id != null){
-            favouriate_iamge.setImageResource(R.mipmap.ic_like_heart);
+            favouriate_iamge.setImageResource(R.mipmap.t1_filled_heart);
             favouriteStaus_item_id = null;
-        }
+        }*/
 
         //  setFavouriteStatus(favouriteStaus_item_id);
 
@@ -262,7 +262,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     }
 
     public void currentChangeFavouriteIcon(){
-        favouriate_iamge.setImageResource(R.mipmap.ic_like_heart);
+        favouriate_iamge.setImageResource(R.mipmap.t1_filled_heart);
     }
 
 

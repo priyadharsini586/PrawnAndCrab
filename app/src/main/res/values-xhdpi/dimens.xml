@@ -69,5 +69,9 @@
     <dimen name="testimony_content">16sp</dimen>
     <dimen name="testimony_time">10sp</dimen>
 
+    <!--margin left for favourite dialoge -->
+    <dimen name="margin_left_heart">16dp</dimen>
+    <dimen name="layout_margin_left">12dp</dimen>
+
 
 </resources>

@@ -70,4 +70,19 @@
     <dimen name="testimony_content">17sp</dimen>
     <dimen name="testimony_time">10sp</dimen>
 
+    <!-- favourite adapter xml-->
+    <dimen name="favourite_item_name">17sp</dimen>
+    <dimen name="favourite_item_description">15sp</dimen>
+    <dimen name="favourite_item_price">17sp</dimen>
+
+    <!-- favourite image alert- dialoge  xml-->
+    <dimen name="favourite_image_height">175dp</dimen>
+    <dimen name="favourite_image_item_name">16sp</dimen>
+    <dimen name="favourite_image_item_description">14sp</dimen>
+    <dimen name="favourite_image_item_price">17sp</dimen>
+
+    <!--margin left for favourite dialoge -->
+    <dimen name="margin_left_heart">17dp</dimen>
+    <dimen name="layout_margin_left">17dp</dimen>
+
 </resources>
