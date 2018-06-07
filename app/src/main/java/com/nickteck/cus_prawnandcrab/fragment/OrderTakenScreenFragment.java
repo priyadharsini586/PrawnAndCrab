@@ -19,12 +19,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nickteck.cus_prawnandcrab.Db.Database;
 import com.nickteck.cus_prawnandcrab.additional_class.Constants;
+import com.nickteck.cus_prawnandcrab.additional_class.HelperClass;
 import com.nickteck.cus_prawnandcrab.api.ApiInterface;
 import com.nickteck.cus_prawnandcrab.interfaceFol.ItemListener;
 import com.nickteck.cus_prawnandcrab.Adapter.CatagoryAdapter;
@@ -41,6 +43,9 @@ import com.nickteck.cus_prawnandcrab.model.FavouriteListData;
 import com.nickteck.cus_prawnandcrab.model.ItemListRequestAndResponseModel;
 import com.nickteck.cus_prawnandcrab.model.ItemModel;
 import com.nickteck.cus_prawnandcrab.model.LoginRequestAndResponse;
+import com.nickteck.cus_prawnandcrab.network.ConnectivityReceiver;
+import com.nickteck.cus_prawnandcrab.service.MyApplication;
+import com.nickteck.cus_prawnandcrab.service.NetworkChangeReceiver;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,7 +62,7 @@ import static com.nickteck.cus_prawnandcrab.additional_class.Constants.ITEM_BASE
 import static com.nickteck.cus_prawnandcrab.additional_class.Constants.SUB_CATEGORY_BASE_URL;
 
 
-public class OrderTakenScreenFragment extends Fragment implements ItemListener{
+public class OrderTakenScreenFragment extends Fragment implements ItemListener,ConnectivityReceiver.ConnectivityReceiverListener,NetworkChangeReceiver.ConnectivityReceiverListener{
     View view;
     ApiInterface apiInterface;
     RecyclerView variety_recycler_view,item_recycler_view;
@@ -84,6 +89,9 @@ public class OrderTakenScreenFragment extends Fragment implements ItemListener{
     Database database;
     ArrayList<FavouriteListData.FavouriteListDetails> favouriteListDetails_adapter;
     LayoutAnimationController controller;
+    boolean isNetworkConnected;
+    View mainView;
+    RelativeLayout rldMainView;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,11 +120,24 @@ public class OrderTakenScreenFragment extends Fragment implements ItemListener{
             }
         }));*/
 
+        MyApplication.getInstance().setConnectivityListener(this);
+        if (AdditionalClass.isNetworkAvailable(getActivity())) {
+            isNetworkConnected = true;
+        }else {
+            isNetworkConnected = false;
+        }
+
+        if(isNetworkConnected){
+        }else {
+            AdditionalClass.showSnackBar(getActivity());
+        }
 
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         TextView tootBarTextViewb = (TextView)toolbar.findViewById(R.id.txtHomeToolBar);
         String content_text = getResources().getString(R.string.category_fragment);
         tootBarTextViewb.setText(content_text);
+
+        rldMainView = (RelativeLayout)view.findViewById(R.id.rldMainView);
 
         txtBrodgeIcon = (TextView)toolbar.findViewById(R.id.txtBrodgeIcon);
         txtBrodgeIcon.setVisibility(View.GONE);
@@ -416,8 +437,13 @@ public class OrderTakenScreenFragment extends Fragment implements ItemListener{
 //                        catagory.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.HORIZONTAL));
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
                         variety_recycler_view.setLayoutManager(linearLayoutManager);
-                        final LayoutAnimationController controller =
-                                AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_animation_fall_down);
+                        try {
+                            controller =
+                                    AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_animation_fall_down);
+
+                        }catch (Exception e){
+                            Log.d("ResourcesException","");
+                        }
 
                         variety_recycler_view.setLayoutAnimation(controller);
                         variety_recycler_view.getAdapter().notifyDataSetChanged();
@@ -834,6 +860,28 @@ public class OrderTakenScreenFragment extends Fragment implements ItemListener{
         });
 
 
+
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+       /* if (isNetworkConnected != isConnected) {
+            if (isConnected) {
+            } else {
+
+            }
+        }
+        isNetworkConnected = isConnected;*/
+
+        if (isNetworkConnected != isConnected) {
+            if (isConnected) {
+                Toast.makeText(getActivity(), "Network Connected", Toast.LENGTH_LONG).show();
+
+            } else {
+                AdditionalClass.showSnackBar(getActivity());
+            }
+        }
+        isNetworkConnected = isConnected;
 
     }
 }

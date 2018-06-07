@@ -21,6 +21,7 @@ import android.widget.VideoView;
 import com.nickteck.cus_prawnandcrab.Adapter.VideoGalleryAdapter;
 import com.nickteck.cus_prawnandcrab.Adapter.VipGalleryAdapter;
 import com.nickteck.cus_prawnandcrab.R;
+import com.nickteck.cus_prawnandcrab.additional_class.AdditionalClass;
 import com.nickteck.cus_prawnandcrab.additional_class.Constants;
 import com.nickteck.cus_prawnandcrab.additional_class.HelperClass;
 import com.nickteck.cus_prawnandcrab.api.ApiClient;
@@ -54,6 +55,7 @@ public class VideoGalleryFragment extends Fragment implements NetworkChangeRecei
     ApiInterface apiInterface;
     ArrayList<VideoGalleryList.VideoGalleryListDetails> videoGalleryLists;
     VideoGalleryAdapter videoGalleryAdapter;
+    boolean isNetworkConnected;
 
 
     public VideoGalleryFragment() {
@@ -69,14 +71,14 @@ public class VideoGalleryFragment extends Fragment implements NetworkChangeRecei
 
         init(view);
 
+
         MyApplication.getInstance().setConnectivityListener(this);
-        if (HelperClass.isNetworkAvailable(getActivity())) {
-            netWorkConnection = true;
+        if (AdditionalClass.isNetworkAvailable(getActivity())) {
+            isNetworkConnected = true;
             progress.setVisibility(View.VISIBLE);
             getVideoGalleryList();
-
         }else {
-            netWorkConnection = false;
+            isNetworkConnected = false;
         }
 
       getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -102,7 +104,7 @@ public class VideoGalleryFragment extends Fragment implements NetworkChangeRecei
     }
 
     private void getVideoGalleryList() {
-        if (netWorkConnection) {
+        if (isNetworkConnected) {
             apiInterface = ApiClient.getClient().create(ApiInterface.class);
             Call<VideoGalleryList> call = apiInterface.getVideoGalleryList();
             call.enqueue(new Callback<VideoGalleryList>() {
@@ -148,11 +150,20 @@ public class VideoGalleryFragment extends Fragment implements NetworkChangeRecei
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
-        netWorkConnection = isConnected;
+        /*netWorkConnection = isConnected;
         if (mainView != null) {
             if (!isConnected)
                 HelperClass.showTopSnackBar(mainView,"Network not connected");
+        }*/
+        if (isNetworkConnected != isConnected) {
+            if (isConnected) {
+                Toast.makeText(getActivity(), "Network Connected", Toast.LENGTH_LONG).show();
+
+            } else {
+                AdditionalClass.showSnackBar(getActivity());
+            }
         }
+        isNetworkConnected = isConnected;
 
     }
 

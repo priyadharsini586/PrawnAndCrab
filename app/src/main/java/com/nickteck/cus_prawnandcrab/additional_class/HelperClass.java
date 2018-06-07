@@ -36,7 +36,7 @@ public class HelperClass {
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(Color.parseColor("#e50000"));
         snackbar.setMaxWidth(appCompatActivity.getWidth());
-        snackbar.setDuration(6000);
+        snackbar.setDuration(3000);
         TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
         textView.setTextColor(Color.WHITE);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);

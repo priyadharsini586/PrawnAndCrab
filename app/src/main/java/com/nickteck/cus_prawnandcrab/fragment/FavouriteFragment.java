@@ -61,11 +61,18 @@ public class FavouriteFragment extends Fragment implements NetworkChangeReceiver
     private  ArrayList<ItemListRequestAndResponseModel.item_list> gridImageList;
     ArrayList<FavouriteListData.FavouriteListDetails> favouriteListDetails_adapter;
     private TextView txtfavouriteList;
+    boolean isNetworkConnected;
 
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         mainView = inflater.inflate(R.layout.favourite_frag, container, false);
+        MyApplication.getInstance().setConnectivityListener(this);
+        if (AdditionalClass.isNetworkAvailable(getActivity())) {
+            isNetworkConnected = true;
+        }else {
+            isNetworkConnected = false;
+        }
 
         database = new Database(getActivity());
         gridImageList = new ArrayList<>();
@@ -82,13 +89,20 @@ public class FavouriteFragment extends Fragment implements NetworkChangeReceiver
         txtBrodgeIcon.setVisibility(View.GONE);
         recyclerView=(RecyclerView)mainView.findViewById(R.id.recycler_view);
 
-        MyApplication.getInstance().setConnectivityListener(this);
+        /*MyApplication.getInstance().setConnectivityListener(this);
         if (AdditionalClass.isNetworkAvailable(getActivity())) {
             netWorkConnection = true;
             progress.setVisibility(View.VISIBLE);
             getItemList();
         }else {
             netWorkConnection = false;
+        }*/
+
+        if(isNetworkConnected){
+            progress.setVisibility(View.VISIBLE);
+            getItemList();
+        }else {
+            AdditionalClass.showSnackBar(getActivity());
         }
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -267,11 +281,23 @@ public class FavouriteFragment extends Fragment implements NetworkChangeReceiver
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
-        netWorkConnection = isConnected;
+       /* netWorkConnection = isConnected;
         if (mainView != null) {
             if (!isConnected)
                 HelperClass.showTopSnackBar(mainView,"Network not connected");
         }
 
+    }*/
+
+        if (isNetworkConnected != isConnected) {
+            if (isConnected) {
+                Toast.makeText(getActivity(), "Network Connected", Toast.LENGTH_LONG).show();
+
+            } else {
+                AdditionalClass.showSnackBar(getActivity());
+
+            }
+        }
+        isNetworkConnected = isConnected;
     }
 }

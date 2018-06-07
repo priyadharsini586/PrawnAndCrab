@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -13,13 +14,17 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.nickteck.cus_prawnandcrab.R;
+import com.nickteck.cus_prawnandcrab.additional_class.AdditionalClass;
+import com.nickteck.cus_prawnandcrab.service.MyApplication;
+import com.nickteck.cus_prawnandcrab.service.NetworkChangeReceiver;
 import com.nickteck.cus_prawnandcrab.utils.Config;
 
-public class YouTubeActivity extends YouTubeBaseActivity {
+public class YouTubeActivity extends YouTubeBaseActivity  implements NetworkChangeReceiver.ConnectivityReceiverListener{
 
     YouTubePlayerView youTubePlayerView;
     private YouTubePlayer youTubeView;
     private String video_url;
+    boolean isNetworkConnected;
     Config config = Config.getInstance();
 
     @Override
@@ -29,7 +34,16 @@ public class YouTubeActivity extends YouTubeBaseActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_you_tube);
 
-        init();
+        MyApplication.getInstance().setConnectivityListener(this);
+        if (AdditionalClass.isNetworkAvailable(this)) {
+            isNetworkConnected = true;
+            init();
+        }else {
+            isNetworkConnected = false;
+        }
+
+
+
 
 
     }
@@ -134,6 +148,20 @@ public class YouTubeActivity extends YouTubeBaseActivity {
 
         }
     };
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        if (isNetworkConnected != isConnected) {
+            if (isConnected) {
+                Toast.makeText(this, "Network Connected", Toast.LENGTH_LONG).show();
+
+            } else {
+                AdditionalClass.showSnackBar(YouTubeActivity.this);
+            }
+        }
+        isNetworkConnected = isConnected;
+
+    }
 
     /*@Override
     public void onPause() {

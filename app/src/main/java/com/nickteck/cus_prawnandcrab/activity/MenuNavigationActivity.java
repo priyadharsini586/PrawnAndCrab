@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
@@ -27,6 +28,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -35,6 +37,7 @@ import com.nickteck.cus_prawnandcrab.Db.Database;
 import com.nickteck.cus_prawnandcrab.R;
 import com.nickteck.cus_prawnandcrab.additional_class.AdditionalClass;
 import com.nickteck.cus_prawnandcrab.additional_class.Constants;
+import com.nickteck.cus_prawnandcrab.additional_class.HelperClass;
 import com.nickteck.cus_prawnandcrab.fragment.ContentFragment;
 import com.nickteck.cus_prawnandcrab.fragment.FavouriteFragment;
 import com.nickteck.cus_prawnandcrab.fragment.FindLocationFragment;
@@ -51,9 +54,11 @@ import com.nickteck.cus_prawnandcrab.fragment.YouTubeVideoFragment;
 import com.nickteck.cus_prawnandcrab.gcm.QuickstartPreferences;
 import com.nickteck.cus_prawnandcrab.gcm.RegistrationIntentService;
 import com.nickteck.cus_prawnandcrab.model.ItemModel;
+import com.nickteck.cus_prawnandcrab.service.MyApplication;
+import com.nickteck.cus_prawnandcrab.service.NetworkChangeReceiver;
 
 public class MenuNavigationActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener,NetworkChangeReceiver.ConnectivityReceiverListener {
 
     TextView txtHomeToolBar;
     FrameLayout layBadge;
@@ -70,13 +75,25 @@ public class MenuNavigationActivity extends AppCompatActivity
     private TextView mInformationTextView;
     private boolean isReceiverRegistered;
     String onBackPressed = "";
+    boolean isNetworkConnected;
+    boolean netWorkConnection;
+    RelativeLayout mainView;
+    CoordinatorLayout coordinatorLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_navigation);
+
+        MyApplication.getInstance().setConnectivityListener(this);
+        if (AdditionalClass.isNetworkAvailable(this)) {
+            isNetworkConnected = true;
+        }else {
+            isNetworkConnected = false;
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.snackbar_id);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -194,51 +211,60 @@ public class MenuNavigationActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        if (AdditionalClass.isNetworkAvailable(this)) {
+            isNetworkConnected = true;
+        }else {
+            isNetworkConnected = false;
+        }
 
-        if (id == R.id.nav_menu) {
-            OrderTakenScreenFragment catagoryFragment = new OrderTakenScreenFragment();
-            AdditionalClass.replaceFragment(catagoryFragment,Constants.ORDER_TAKEN_FRAGMENT,MenuNavigationActivity.this);
+        if(isNetworkConnected){
+            if (id == R.id.nav_menu) {
+                OrderTakenScreenFragment catagoryFragment = new OrderTakenScreenFragment();
+                AdditionalClass.replaceFragment(catagoryFragment,Constants.ORDER_TAKEN_FRAGMENT,MenuNavigationActivity.this);
 
-        } else if (id == R.id.nav_gallery) {
-            FavouriteFragment favouriteFragment=new FavouriteFragment();
-            AdditionalClass.replaceFragment(favouriteFragment,Constants.FAVOURITE_FRAGMENT,MenuNavigationActivity.this);
+            } else if (id == R.id.nav_gallery) {
+                FavouriteFragment favouriteFragment=new FavouriteFragment();
+                AdditionalClass.replaceFragment(favouriteFragment,Constants.FAVOURITE_FRAGMENT,MenuNavigationActivity.this);
 
 
-        } else if (id == R.id.nav_my_orders) {
-            OrderFragment orderFragment = new OrderFragment();
-            AdditionalClass.replaceFragment(orderFragment,Constants.ORDER_FRAGMENT,MenuNavigationActivity.this);
-        } else if (id == R.id.nav_manage) {
+            } else if (id == R.id.nav_my_orders) {
+                OrderFragment orderFragment = new OrderFragment();
+                AdditionalClass.replaceFragment(orderFragment,Constants.ORDER_FRAGMENT,MenuNavigationActivity.this);
+            } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_offers) {
-            OffersFragment orderFragment = new OffersFragment();
-            AdditionalClass.replaceFragment(orderFragment,Constants.OFFERS_FRAGMENT,MenuNavigationActivity.this);
-        } else if (id == R.id.nav_history) {
-            HistoryFragment myOrdersFragment = new HistoryFragment();
-            AdditionalClass.replaceFragment(myOrdersFragment,Constants.HISTORY_FRAGMENT,MenuNavigationActivity.this);
-        }else if (id == R.id.nav_my_location) {
-            MyLocationFragment myLocationFragment = new MyLocationFragment();
-            AdditionalClass.replaceFragment(myLocationFragment,Constants.MY_LOCATION_FRAGMENT,MenuNavigationActivity.this);
-        } else if (id == R.id.nav_testimony) {
-            TestimonyFragment testimonyFragment = new TestimonyFragment();
-            AdditionalClass.replaceFragment(testimonyFragment,Constants.TESTIMONY_FRAGMENT,MenuNavigationActivity.this);
-        }else if(id == R.id.nav_find_location){
-            FindLocationFragment findLocationFragment = new FindLocationFragment();
-            AdditionalClass.replaceFragment(findLocationFragment,Constants.FIND_LOCATION_FRAGMENT,MenuNavigationActivity.this);
-        }else if(id == R.id.nav_vip_gallery){
-            VipGalleryFragment vipGallery = new VipGalleryFragment();
-            AdditionalClass.replaceFragment(vipGallery,Constants.VIP_GALLERY_FRAGMENT,MenuNavigationActivity.this);
-        }else if(id == R.id.nav_vip_video_gallery){
-            VideoGalleryFragment videoGalleryFragment = new VideoGalleryFragment();
-            AdditionalClass.replaceFragment(videoGalleryFragment,Constants.VIDEO_GALLERY_FRAGMENT,MenuNavigationActivity.this);
-        }else if(id == R.id.nav_share){
-            shareData();
-        }else if(id == R.id.nav_logout){
+            } else if (id == R.id.nav_offers) {
+                OffersFragment orderFragment = new OffersFragment();
+                AdditionalClass.replaceFragment(orderFragment,Constants.OFFERS_FRAGMENT,MenuNavigationActivity.this);
+            } else if (id == R.id.nav_history) {
+                HistoryFragment myOrdersFragment = new HistoryFragment();
+                AdditionalClass.replaceFragment(myOrdersFragment,Constants.HISTORY_FRAGMENT,MenuNavigationActivity.this);
+            }else if (id == R.id.nav_my_location) {
+                MyLocationFragment myLocationFragment = new MyLocationFragment();
+                AdditionalClass.replaceFragment(myLocationFragment,Constants.MY_LOCATION_FRAGMENT,MenuNavigationActivity.this);
+            } else if (id == R.id.nav_testimony) {
+                TestimonyFragment testimonyFragment = new TestimonyFragment();
+                AdditionalClass.replaceFragment(testimonyFragment,Constants.TESTIMONY_FRAGMENT,MenuNavigationActivity.this);
+            }else if(id == R.id.nav_find_location){
+                FindLocationFragment findLocationFragment = new FindLocationFragment();
+                AdditionalClass.replaceFragment(findLocationFragment,Constants.FIND_LOCATION_FRAGMENT,MenuNavigationActivity.this);
+            }else if(id == R.id.nav_vip_gallery){
+                VipGalleryFragment vipGallery = new VipGalleryFragment();
+                AdditionalClass.replaceFragment(vipGallery,Constants.VIP_GALLERY_FRAGMENT,MenuNavigationActivity.this);
+            }else if(id == R.id.nav_vip_video_gallery){
+                VideoGalleryFragment videoGalleryFragment = new VideoGalleryFragment();
+                AdditionalClass.replaceFragment(videoGalleryFragment,Constants.VIDEO_GALLERY_FRAGMENT,MenuNavigationActivity.this);
+            }else if(id == R.id.nav_share){
+                shareData();
+        }else if(id == R.id.nav_logout) {
             SharedPreferences settings = getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
             settings.edit().clear().commit();
             database = new Database(getApplicationContext());
             database.deleteAll();
             finish();
             goToLoginActivity();
+            }
+      }else {
+            AdditionalClass.showSnackBar1(coordinatorLayout,"Network Not Connected");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -354,5 +380,12 @@ public class MenuNavigationActivity extends AppCompatActivity
     }
 
 
-
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        netWorkConnection = isConnected;
+        if (mainView != null) {
+            if (!isConnected)
+                HelperClass.showTopSnackBar(mainView,"Network not connected");
+        }
+    }
 }

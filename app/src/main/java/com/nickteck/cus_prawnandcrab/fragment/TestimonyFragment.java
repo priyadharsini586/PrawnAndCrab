@@ -36,6 +36,7 @@ import com.nickteck.cus_prawnandcrab.BuildConfig;
 import com.nickteck.cus_prawnandcrab.Db.Database;
 import com.nickteck.cus_prawnandcrab.R;
 import com.nickteck.cus_prawnandcrab.activity.MenuNavigationActivity;
+import com.nickteck.cus_prawnandcrab.additional_class.AdditionalClass;
 import com.nickteck.cus_prawnandcrab.additional_class.Constants;
 import com.nickteck.cus_prawnandcrab.additional_class.HelperClass;
 import com.nickteck.cus_prawnandcrab.animation_file.StaggeredAnimationGroup;
@@ -104,6 +105,7 @@ public class TestimonyFragment extends Fragment implements NetworkChangeReceiver
     private String currentDateTime;
     int MY_PERMISSIONS_REQUEST_CAMERA=0;
     static final Integer CAMERA = 1;
+    boolean isNetworkConnected;
 
 
 
@@ -145,12 +147,11 @@ public class TestimonyFragment extends Fragment implements NetworkChangeReceiver
         });
 
         MyApplication.getInstance().setConnectivityListener(this);
-        if (HelperClass.isNetworkAvailable(getActivity())) {
-            netWorkConnection = true;
+        if (AdditionalClass.isNetworkAvailable(getActivity())) {
+            isNetworkConnected = true;
             displayTestimony();
-
         }else {
-            netWorkConnection = false;
+            isNetworkConnected = false;
         }
 
         //------------------------//
@@ -233,7 +234,7 @@ public class TestimonyFragment extends Fragment implements NetworkChangeReceiver
 
     private void displayTestimony(){
 
-        if (netWorkConnection){
+        if (isNetworkConnected){
             apiInterface = ApiClient.getClient().create(ApiInterface.class);
             Call<TestimonyDetails> call = apiInterface.getTestimonyDetails();
             call.enqueue(new Callback<TestimonyDetails>() {
@@ -320,7 +321,7 @@ public class TestimonyFragment extends Fragment implements NetworkChangeReceiver
     }
 
     private void sendTestimony() {
-        if (netWorkConnection){
+        if (isNetworkConnected){
             apiInterface = ApiClient.getClient().create(ApiInterface.class);
             JSONObject jsonObject = new JSONObject();
             final UserRegisterDetails userRegisterDetails = UserRegisterDetails.getInstance();
@@ -421,11 +422,20 @@ public class TestimonyFragment extends Fragment implements NetworkChangeReceiver
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
-        netWorkConnection = isConnected;
+        /*netWorkConnection = isConnected;
         if (mainView != null) {
             if (!isConnected)
                 HelperClass.showTopSnackBar(mainView,"Network not connected");
+        }*/
+        if (isNetworkConnected != isConnected) {
+            if (isConnected) {
+                Toast.makeText(getActivity(), "Network Connected", Toast.LENGTH_LONG).show();
+
+            } else {
+                AdditionalClass.showSnackBar(getActivity());
+            }
         }
+        isNetworkConnected = isConnected;
 
     }
 

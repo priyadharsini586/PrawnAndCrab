@@ -38,8 +38,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.nickteck.cus_prawnandcrab.R;
+import com.nickteck.cus_prawnandcrab.additional_class.AdditionalClass;
 import com.nickteck.cus_prawnandcrab.additional_class.DataParser;
 import com.nickteck.cus_prawnandcrab.model.LatLog;
+import com.nickteck.cus_prawnandcrab.service.MyApplication;
+import com.nickteck.cus_prawnandcrab.service.NetworkChangeReceiver;
 
 import org.json.JSONObject;
 
@@ -59,7 +62,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FindLocationFragment extends Fragment implements OnMapReadyCallback,LocationListener {
+public class FindLocationFragment extends Fragment implements OnMapReadyCallback,LocationListener,NetworkChangeReceiver.ConnectivityReceiverListener {
 
     GoogleMap mGoogleMap;
     View mainView;
@@ -73,6 +76,7 @@ public class FindLocationFragment extends Fragment implements OnMapReadyCallback
     LatLng currentLatLng;
     private LatLng min_latlag_value_distance;
     ArrayList<LatLng> addLocation1;
+    boolean isNetworkConnected;
 
 
     public FindLocationFragment() {
@@ -85,6 +89,13 @@ public class FindLocationFragment extends Fragment implements OnMapReadyCallback
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mainView = inflater.inflate(R.layout.fragment_find_location, container, false);
+
+        MyApplication.getInstance().setConnectivityListener(this);
+        if (AdditionalClass.isNetworkAvailable(getActivity())) {
+            isNetworkConnected = true;
+        }else {
+            isNetworkConnected = false;
+        }
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
@@ -321,6 +332,7 @@ public class FindLocationFragment extends Fragment implements OnMapReadyCallback
 
 
 
+
     // Fetches data from url passed
     private class FetchUrl extends AsyncTask<String, Void, String> {
 
@@ -539,6 +551,19 @@ public class FindLocationFragment extends Fragment implements OnMapReadyCallback
 
 
         return url;
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        if (isNetworkConnected != isConnected) {
+            if (isConnected) {
+                Toast.makeText(getActivity(), "Network Connected", Toast.LENGTH_LONG).show();
+
+            } else {
+                AdditionalClass.showSnackBar(getActivity());
+            }
+        }
+        isNetworkConnected = isConnected;
     }
 
 

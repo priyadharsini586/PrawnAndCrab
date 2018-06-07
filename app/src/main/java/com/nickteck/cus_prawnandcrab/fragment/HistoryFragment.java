@@ -19,11 +19,14 @@ import com.nickteck.cus_prawnandcrab.Adapter.ItemAdapter;
 import com.nickteck.cus_prawnandcrab.Db.Database;
 import com.nickteck.cus_prawnandcrab.R;
 import com.nickteck.cus_prawnandcrab.activity.LoginActivity;
+import com.nickteck.cus_prawnandcrab.additional_class.AdditionalClass;
 import com.nickteck.cus_prawnandcrab.additional_class.Constants;
 import com.nickteck.cus_prawnandcrab.api.ApiClient;
 import com.nickteck.cus_prawnandcrab.api.ApiInterface;
 import com.nickteck.cus_prawnandcrab.model.HistoryModel;
 import com.nickteck.cus_prawnandcrab.model.ItemListRequestAndResponseModel;
+import com.nickteck.cus_prawnandcrab.service.MyApplication;
+import com.nickteck.cus_prawnandcrab.service.NetworkChangeReceiver;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,7 +42,7 @@ import retrofit2.Response;
 import static com.nickteck.cus_prawnandcrab.additional_class.Constants.ITEM_BASE_URL;
 
 
-public class HistoryFragment extends Fragment {
+public class HistoryFragment extends Fragment implements NetworkChangeReceiver.ConnectivityReceiverListener {
 
     View mainView;
     RecyclerView myHistoryRecycleView;
@@ -49,6 +52,7 @@ public class HistoryFragment extends Fragment {
     ArrayList<ItemListRequestAndResponseModel.item_list> historyList;
     HashMap<String, ItemListRequestAndResponseModel.item_list> itemListDetails;
     HistoryAdapter historyAdapter;
+    boolean isNetworkConnected;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,13 +64,27 @@ public class HistoryFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         mainView = inflater.inflate(R.layout.fragment_history, container, false);
+
+        MyApplication.getInstance().setConnectivityListener(this);
+        if (AdditionalClass.isNetworkAvailable(getActivity())) {
+            isNetworkConnected = true;
+        }else {
+            isNetworkConnected = false;
+        }
         myHistoryRecycleView =(RecyclerView) mainView.findViewById(R.id.myHistoryRecycleView);
         myHistoryRecycleView.setVisibility(View.GONE);
         txtNoHostory  = (TextView) mainView.findViewById(R.id.txtNoHostory);
         txtNoHostory.setVisibility(View.GONE);
         progressHistory = (ProgressBar)mainView.findViewById(R.id.progressHistory);
         progressHistory.setVisibility(View.GONE);
-        getItemDetails();
+
+
+        if(isNetworkConnected){
+            progressHistory.setVisibility(View.VISIBLE);
+            getItemDetails();
+        }else {
+            AdditionalClass.showSnackBar(getActivity());
+        }
 
         return mainView;
     }
@@ -178,4 +196,19 @@ public class HistoryFragment extends Fragment {
     }
 
 
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+
+        if (isNetworkConnected != isConnected) {
+            if (isConnected) {
+                Toast.makeText(getActivity(), "Network Connected", Toast.LENGTH_LONG).show();
+
+            } else {
+                AdditionalClass.showSnackBar(getActivity());
+
+            }
+        }
+        isNetworkConnected = isConnected;
+
+    }
 }

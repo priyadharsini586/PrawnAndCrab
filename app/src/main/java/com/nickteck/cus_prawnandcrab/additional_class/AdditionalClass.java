@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
@@ -50,7 +51,7 @@ public class AdditionalClass {
     {
         TSnackbar snackbar = TSnackbar
                 .make(context.findViewById(android.R.id.content), "Network Not Connected", TSnackbar.LENGTH_LONG)
-                .setAction("Retry", new View.OnClickListener() {
+                .setAction("", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Log.e("Action Button", "onClick triggered");
@@ -64,7 +65,7 @@ public class AdditionalClass {
         TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
         textView.setTextColor(Color.WHITE);
         textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
-        snackbar.setDuration(60000);
+        snackbar.setDuration(30000);
         snackbar.show();
 
     }
@@ -76,6 +77,23 @@ public class AdditionalClass {
         fragmentTransaction.replace(R.id.rldMainContainer, fragment, fragmentTag);
         fragmentTransaction.commit();
 
+    }
+
+    public static void showSnackBar1(View view,String msg) {
+        TSnackbar snackbar = TSnackbar.make(view, msg, TSnackbar.LENGTH_LONG);
+        snackbar.setActionTextColor(Color.WHITE);
+        View snackbarView = snackbar.getView();
+
+        ViewGroup.LayoutParams params = snackbarView.getLayoutParams();
+        params.width = view.getWidth();
+        snackbarView.setLayoutParams(params);
+
+        snackbar.setActionTextColor(Color.parseColor("#00628f"));
+        snackbarView.setBackgroundColor(Color.parseColor("#f48220"));
+        TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
+        textView.setTextColor(Color.BLACK);
+        snackbar.setDuration(3000);
+        snackbar.show();
     }
 
     public static boolean isInteger(String s) {

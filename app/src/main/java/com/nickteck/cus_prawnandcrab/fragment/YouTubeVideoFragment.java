@@ -26,13 +26,16 @@ import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.nickteck.cus_prawnandcrab.R;
 import com.nickteck.cus_prawnandcrab.activity.MenuNavigationActivity;
+import com.nickteck.cus_prawnandcrab.additional_class.AdditionalClass;
 import com.nickteck.cus_prawnandcrab.model.ItemModel;
+import com.nickteck.cus_prawnandcrab.service.MyApplication;
+import com.nickteck.cus_prawnandcrab.service.NetworkChangeReceiver;
 import com.nickteck.cus_prawnandcrab.utils.Config;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class YouTubeVideoFragment extends Fragment {
+public class YouTubeVideoFragment extends Fragment implements NetworkChangeReceiver.ConnectivityReceiverListener {
 
     private static final int RECOVERY_DIALOG_REQUEST = 1;
     // YouTube player view
@@ -45,6 +48,7 @@ public class YouTubeVideoFragment extends Fragment {
     private static String Url;
     private static final String ARG_PARAM2 = "param2";
     Config config = Config.getInstance();
+    boolean isNetworkConnected;
     YouTubePlayerView youTubePlayerView;
 
     // TODO: Rename and change types and number of parameters
@@ -75,7 +79,12 @@ public class YouTubeVideoFragment extends Fragment {
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);*/
 
-
+        MyApplication.getInstance().setConnectivityListener(this);
+        if (AdditionalClass.isNetworkAvailable(getActivity())) {
+            isNetworkConnected = true;
+        }else {
+            isNetworkConnected = false;
+        }
 
 
         /*getActivity().getWindow().getDecorView().setSystemUiVisibility(
@@ -228,5 +237,18 @@ public class YouTubeVideoFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        if (isNetworkConnected != isConnected) {
+            if (isConnected) {
+                Toast.makeText(getActivity(), "Network Connected", Toast.LENGTH_LONG).show();
+
+            } else {
+                AdditionalClass.showSnackBar(getActivity());
+            }
+        }
+        isNetworkConnected = isConnected;
     }
 }

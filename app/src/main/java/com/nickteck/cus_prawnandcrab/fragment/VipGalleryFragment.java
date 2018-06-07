@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.nickteck.cus_prawnandcrab.Adapter.TestimonyAdapter;
 import com.nickteck.cus_prawnandcrab.Adapter.VipGalleryAdapter;
 import com.nickteck.cus_prawnandcrab.R;
+import com.nickteck.cus_prawnandcrab.additional_class.AdditionalClass;
 import com.nickteck.cus_prawnandcrab.additional_class.Constants;
 import com.nickteck.cus_prawnandcrab.additional_class.HelperClass;
 import com.nickteck.cus_prawnandcrab.api.ApiClient;
@@ -42,6 +43,7 @@ public class VipGalleryFragment extends Fragment implements NetworkChangeReceive
     ProgressBar progress;
     private VipGalleryAdapter vipGalleryAdapter;
     ArrayList<VipGalleryDetails> vipGallerydataDetails;
+    boolean isNetworkConnected;
 
 
 
@@ -60,13 +62,12 @@ public class VipGalleryFragment extends Fragment implements NetworkChangeReceive
 
 
         MyApplication.getInstance().setConnectivityListener(this);
-        if (HelperClass.isNetworkAvailable(getActivity())) {
-            netWorkConnection = true;
+        if (AdditionalClass.isNetworkAvailable(getActivity())) {
+            isNetworkConnected = true;
             progress.setVisibility(View.VISIBLE);
             getVipListData();
-
         }else {
-            netWorkConnection = false;
+            isNetworkConnected = false;
         }
         return  view;
     }
@@ -84,7 +85,7 @@ public class VipGalleryFragment extends Fragment implements NetworkChangeReceive
     }
 
     private void getVipListData() {
-        if (netWorkConnection){
+        if (isNetworkConnected){
             apiInterface = ApiClient.getClient().create(ApiInterface.class);
             Call<VipGalleryDetails> call = apiInterface.getVipGalleryList();
             call.enqueue(new Callback<VipGalleryDetails>() {
@@ -125,11 +126,21 @@ public class VipGalleryFragment extends Fragment implements NetworkChangeReceive
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
-        netWorkConnection = isConnected;
+        /*netWorkConnection = isConnected;
         if (mainView != null) {
             if (!isConnected)
                 HelperClass.showTopSnackBar(mainView,"Network not connected");
+        }*/
+        if (isNetworkConnected != isConnected) {
+            if (isConnected) {
+                Toast.makeText(getActivity(), "Network Connected", Toast.LENGTH_LONG).show();
+
+            } else {
+                AdditionalClass.showSnackBar(getActivity());
+                progress.setVisibility(View.GONE);
+            }
         }
+        isNetworkConnected = isConnected;
 
     }
 
