@@ -90,6 +90,18 @@ public class FindLocationFragment extends Fragment implements OnMapReadyCallback
         // Inflate the layout for this fragment
         mainView = inflater.inflate(R.layout.fragment_find_location, container, false);
 
+       /* MyApplication.getInstance().setConnectivityListener(this);
+        if (AdditionalClass.isNetworkAvailable(getActivity())) {
+            isNetworkConnected = true;
+        }else {
+            isNetworkConnected = false;
+        }*/
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
+                .findFragmentById(R.id.find_location_map);
+        mapFragment.getMapAsync(this);
+
         MyApplication.getInstance().setConnectivityListener(this);
         if (AdditionalClass.isNetworkAvailable(getActivity())) {
             isNetworkConnected = true;
@@ -97,10 +109,6 @@ public class FindLocationFragment extends Fragment implements OnMapReadyCallback
             isNetworkConnected = false;
         }
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
-                .findFragmentById(R.id.find_location_map);
-        mapFragment.getMapAsync(this);
 
         return mainView;
     }
@@ -172,8 +180,15 @@ public class FindLocationFragment extends Fragment implements OnMapReadyCallback
                 //move map camera
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
 
-                // set static location method
-                setStaticLocation();
+
+                if(isNetworkConnected){
+                    // set static location method
+                    setStaticLocation();
+                }else {
+                    AdditionalClass.showSnackBar(getActivity());
+                }
+
+
 
 
 
@@ -185,7 +200,12 @@ public class FindLocationFragment extends Fragment implements OnMapReadyCallback
 
     private void setStaticLocation() {
 
-        staticAddressLocation();
+        if(isNetworkConnected){
+            staticAddressLocation();
+        }else {
+            AdditionalClass.showSnackBar(getActivity());
+        }
+
 
         /*LatLng location;
         MarkerOptions markerOptions;
@@ -229,7 +249,12 @@ public class FindLocationFragment extends Fragment implements OnMapReadyCallback
                 "V V Colony, Mahalakshmi Nagar, Adambakkam, Chennai, Tamil Nadu 600088, India");
         address.add("Little Mount, Kotturpuram, Chennai, Tamil Nadu, India");
 
-        getGeoLocationFromAddress(address);
+        if(isNetworkConnected){
+            getGeoLocationFromAddress(address);
+        }else {
+            AdditionalClass.showSnackBar(getActivity());
+        }
+
 
 
     }
@@ -254,7 +279,13 @@ public class FindLocationFragment extends Fragment implements OnMapReadyCallback
                 }
             }
         }
-        fixMarker(addLocation1);
+
+        if(isNetworkConnected){
+            fixMarker(addLocation1);
+        }else {
+            AdditionalClass.showSnackBar(getActivity());
+        }
+
 
 
     }
@@ -276,7 +307,12 @@ public class FindLocationFragment extends Fragment implements OnMapReadyCallback
             mGoogleMap.addMarker(markerOptions_obtained);
 
         }
-        checkForDistance(addLocation,current_Lat_lng_Value);
+        if(isNetworkConnected){
+            checkForDistance(addLocation,current_Lat_lng_Value);
+        }else {
+            AdditionalClass.showSnackBar(getActivity());
+        }
+
 
     }
 
@@ -301,6 +337,7 @@ public class FindLocationFragment extends Fragment implements OnMapReadyCallback
                 LatLog latLog = new LatLog(distanceInMeters,addLocation.get(i));
                 latLogs_model.add(latLog);
             }
+
             checkForMinimumValue(latLogs_model);
 
         }
@@ -324,10 +361,15 @@ public class FindLocationFragment extends Fragment implements OnMapReadyCallback
         String url = getUrl(currentLatLng, min_latlag_value_distance);
 
         Log.d("onMapClick", url.toString());
-        FetchUrl FetchUrl = new FetchUrl();
+        if(isNetworkConnected){
+            FetchUrl FetchUrl = new FetchUrl();
 
-        // Start downloading json data from Google Directions API
-        FetchUrl.execute(url);
+            // Start downloading json data from Google Directions API
+            FetchUrl.execute(url);
+        }else {
+            AdditionalClass.showSnackBar(getActivity());
+        }
+
     }
 
 
@@ -561,6 +603,7 @@ public class FindLocationFragment extends Fragment implements OnMapReadyCallback
 
             } else {
                 AdditionalClass.showSnackBar(getActivity());
+
             }
         }
         isNetworkConnected = isConnected;

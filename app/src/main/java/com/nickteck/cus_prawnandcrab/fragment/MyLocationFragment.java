@@ -48,8 +48,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.nickteck.cus_prawnandcrab.R;
+import com.nickteck.cus_prawnandcrab.additional_class.AdditionalClass;
 import com.nickteck.cus_prawnandcrab.additional_class.DataParser;
 import com.nickteck.cus_prawnandcrab.map.GeocodingLocation;
+import com.nickteck.cus_prawnandcrab.service.MyApplication;
+import com.nickteck.cus_prawnandcrab.service.NetworkChangeReceiver;
 
 import org.json.JSONObject;
 
@@ -65,7 +68,7 @@ import java.util.List;
 
 
 public class MyLocationFragment extends Fragment implements
-        OnMapReadyCallback, LocationListener {
+        OnMapReadyCallback, LocationListener,NetworkChangeReceiver.ConnectivityReceiverListener {
 
     GoogleMap mGoogleMap;
     SupportMapFragment mapFrag;
@@ -77,6 +80,8 @@ public class MyLocationFragment extends Fragment implements
     String TAG = MyLocationFragment.class.getName();
     String destination;
     LatLng currentLatLng;
+    boolean isNetworkConnected;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,6 +99,13 @@ public class MyLocationFragment extends Fragment implements
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        MyApplication.getInstance().setConnectivityListener(this);
+        if (AdditionalClass.isNetworkAvailable(getActivity())) {
+            isNetworkConnected = true;
+        }else {
+            isNetworkConnected = false;
+        }
 
        /* destination = "Classisc Apartments, V V Colony Cross Street, Adambakkam,chennai ";
         destination=destination.replace(" ","+");*/
@@ -222,10 +234,16 @@ public class MyLocationFragment extends Fragment implements
                 currentLatLng = latLng;
                 String url = getUrl(currentLatLng, destination);
                 Log.d("onMapClick", url.toString());
-                FetchUrl FetchUrl = new FetchUrl();
 
-                // Start downloading json data from Google Directions API
-                FetchUrl.execute(url);
+
+                if(isNetworkConnected){
+                    // Start downloading json data from Google Directions API
+                    FetchUrl FetchUrl = new FetchUrl();
+                    FetchUrl.execute(url);
+                }else {
+                    AdditionalClass.showSnackBar(getActivity());
+                }
+
             }
         }
     };
@@ -318,6 +336,21 @@ public class MyLocationFragment extends Fragment implements
 
     @Override
     public void onProviderDisabled(String s) {
+
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+
+        if (isNetworkConnected != isConnected) {
+            if (isConnected) {
+                Toast.makeText(getActivity(), "Network Connected", Toast.LENGTH_LONG).show();
+
+            } else {
+                AdditionalClass.showSnackBar(getActivity());
+            }
+        }
+        isNetworkConnected = isConnected;
 
     }
 
