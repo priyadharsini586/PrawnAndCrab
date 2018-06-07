@@ -68,14 +68,15 @@
             android:icon="@drawable/ic_share"
             android:title="Share" />
 
-
-
-
-
         <item
             android:id="@+id/nav_about_us"
             android:icon="@drawable/ic_about_us_menu"
             android:title="About Us" />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Logout" />
     </group>
 
     <!--<item android:title="Communicate">-->

@@ -130,9 +130,9 @@ public class OrderTakenScreenFragment extends Fragment implements ItemListener{
         }
 
         ldtSpinner = (LinearLayout) toolbar.findViewById(R.id.ldtSpinner);
-        ldtSpinner.setVisibility(View.VISIBLE);
+        ldtSpinner.setVisibility(View.INVISIBLE);
         cat_spinner = (Spinner)toolbar.findViewById(R.id.cat_spinner);
-        cat_spinner.setVisibility(View.VISIBLE);
+        cat_spinner.setVisibility(View.INVISIBLE);
         cat_spinner.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -204,7 +204,7 @@ public class OrderTakenScreenFragment extends Fragment implements ItemListener{
         });
 
         variety_recycler_view = (RecyclerView) view.findViewById(R.id.variety_recycler_view);
-        variety_recycler_view.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), item_recycler_view, new RecyclerTouchListener.ClickListener() {
+        variety_recycler_view.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), variety_recycler_view, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 if (position != 0) {

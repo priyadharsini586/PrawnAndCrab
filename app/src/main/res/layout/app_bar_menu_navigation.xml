@@ -43,7 +43,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:visibility="visible"
+                    android:visibility="invisible"
                     android:id="@+id/ldtSpinner"
                     android:layout_weight="1"
                     >
@@ -52,6 +52,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:visibility="invisible"
                         style="@style/spinner_style"
                         />
                 </LinearLayout>
@@ -76,8 +77,8 @@
                         android:layout_height="@dimen/logout_logo_size"
                         android:src="@drawable/logout"
                         android:id="@+id/imgLogOut"
-                        android:visibility="visible"
-                            android:layout_gravity="center"/>
+                        android:visibility="gone"
+                        android:layout_gravity="center"/>
 
                 <include
                     layout="@layout/custom_action_item_layout"

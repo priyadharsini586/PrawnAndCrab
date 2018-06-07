@@ -231,11 +231,23 @@ public class MenuNavigationActivity extends AppCompatActivity
             AdditionalClass.replaceFragment(videoGalleryFragment,Constants.VIDEO_GALLERY_FRAGMENT,MenuNavigationActivity.this);
         }else if(id == R.id.nav_share){
             shareData();
+        }else if(id == R.id.nav_logout){
+            SharedPreferences settings = getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
+            settings.edit().clear().commit();
+            database = new Database(getApplicationContext());
+            database.deleteAll();
+            finish();
+            goToLoginActivity();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void goToLoginActivity() {
+        Intent intent = new Intent(this,LoginActivity.class);
+        startActivity(intent);
     }
 
     @Override
