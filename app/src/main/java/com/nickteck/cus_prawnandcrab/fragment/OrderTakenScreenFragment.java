@@ -83,6 +83,7 @@ public class OrderTakenScreenFragment extends Fragment implements ItemListener{
     private ArrayList<String> itemIdList = new ArrayList();
     Database database;
     ArrayList<FavouriteListData.FavouriteListDetails> favouriteListDetails_adapter;
+    LayoutAnimationController controller;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -348,8 +349,15 @@ public class OrderTakenScreenFragment extends Fragment implements ItemListener{
                         itemAdapter=new ItemAdapter(gridImageList,favouriteListDetails_adapter,getActivity(),getActivity(),OrderTakenScreenFragment.this );
                         itemAdapter.setListener(OrderTakenScreenFragment.this);
                         item_recycler_view.setAdapter(itemAdapter);
-                        final LayoutAnimationController controller =
-                                AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_animation_fall_down);
+                        try {
+                            controller =
+                                    AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_animation_fall_down);
+
+                        }catch (Exception e){
+                            Log.d("ResourcesException","");
+                        }
+
+
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
                         item_recycler_view.setLayoutManager(linearLayoutManager);
                         item_recycler_view.setLayoutAnimation(controller);

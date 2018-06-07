@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -331,5 +332,27 @@ public class MenuNavigationActivity extends AppCompatActivity
     public void HideStatusBar() {
         this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        boolean back = false;
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            back = true;
+            backStack();
+        }
+        return back;
+
+    }
+
+    private void backStack(){
+        if(getSupportFragmentManager().getBackStackEntryCount()>1){
+            getSupportFragmentManager().popBackStack();
+        }else
+        if(getSupportFragmentManager().getBackStackEntryCount()==1){
+            this.finish();
+        }
+    }
+
+
 
 }
