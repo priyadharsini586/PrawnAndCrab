@@ -77,6 +77,7 @@ public class FindLocationFragment extends Fragment implements OnMapReadyCallback
     private LatLng min_latlag_value_distance;
     ArrayList<LatLng> addLocation1;
     boolean isNetworkConnected;
+    private String url;
 
 
     public FindLocationFragment() {
@@ -338,7 +339,12 @@ public class FindLocationFragment extends Fragment implements OnMapReadyCallback
                 latLogs_model.add(latLog);
             }
 
-            checkForMinimumValue(latLogs_model);
+            try{
+                checkForMinimumValue(latLogs_model);
+            }catch (Exception e){
+                Toast.makeText(getActivity(), "Please Try Again", Toast.LENGTH_SHORT).show();
+            }
+
 
         }
 
@@ -357,8 +363,14 @@ public class FindLocationFragment extends Fragment implements OnMapReadyCallback
                 min_latlag_value_distance = latLog.getLatLng();
             }
         }
+
+        try{
+            url = getUrl(currentLatLng, min_latlag_value_distance);
+        }catch (Exception e){
+            Toast.makeText(getActivity(), "Please Try Again", Toast.LENGTH_SHORT).show();
+        }
         // start for drawing polygon line
-        String url = getUrl(currentLatLng, min_latlag_value_distance);
+
 
         Log.d("onMapClick", url.toString());
         if(isNetworkConnected){
